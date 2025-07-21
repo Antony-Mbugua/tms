@@ -6,11 +6,11 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import { 
-  Sparkles, 
-  Lock, 
-  Mail, 
-  Zap, 
+import {
+  Sparkles,
+  Lock,
+  Mail,
+  Zap,
   Palette,
   Sun,
   Moon,
