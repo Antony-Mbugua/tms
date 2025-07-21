@@ -1,8 +1,17 @@
 import { LoginCredentials } from '@/types/user'
 
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-api-domain.com/api'
-  : 'http://localhost:5000/api'
+// Determine API URL based on environment
+const getApiBaseUrl = () => {
+  // If running on fly.dev or other deployed environment
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+    // Try to use the network IP from dev server logs
+    return 'http://172.19.4.42:5000/api'
+  }
+  // Local development
+  return 'http://localhost:5000/api'
+}
+
+const API_BASE_URL = getApiBaseUrl()
 
 interface ApiResponse<T = any> {
   success: boolean
