@@ -370,8 +370,14 @@ export const LoginPage: React.FC = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  
+  const [showDemoInfo, setShowDemoInfo] = useState(true)
+
   const { login } = useAuth()
+
+  // Check if we're in demo mode (fly.dev deployment)
+  const isDemoMode = typeof window !== 'undefined' &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
