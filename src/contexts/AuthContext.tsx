@@ -124,10 +124,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateUser = (updates: Partial<User>) => {
     dispatch({ type: 'UPDATE_USER', payload: updates })
-    if (state.user) {
-      const updatedUser = { ...state.user, ...updates }
-      localStorage.setItem('aol_user', JSON.stringify(updatedUser))
-    }
+    // Note: In a real app, you'd want to sync this with the backend
+    // For now, just update the local state
   }
 
   return (
