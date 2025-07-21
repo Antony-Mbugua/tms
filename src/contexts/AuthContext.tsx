@@ -95,18 +95,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (credentials: LoginCredentials) => {
     dispatch({ type: 'SET_LOADING', payload: true })
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    const user = mockUsers[credentials.email]
-    if (user && credentials.password === 'password123') {
-      const updatedUser = { ...user, lastLogin: new Date() }
-      localStorage.setItem('aol_user', JSON.stringify(updatedUser))
-      dispatch({ type: 'SET_USER', payload: updatedUser })
-    } else {
+
+    try {
+      const response = await apiService.login(credentials)
+
+      if (response.success && response.user) {
+        const user = transformApiUser(response.user)
+        dispatch({ type: 'SET_USER', payload: user })
+      } else {
+        dispatch({ type: 'SET_LOADING', payload: false })
+        throw new Error(response.error || 'Login failed')
+      }
+    } catch (error) {
       dispatch({ type: 'SET_LOADING', payload: false })
-      throw new Error('Invalid credentials')
+      throw error
     }
   }
 
