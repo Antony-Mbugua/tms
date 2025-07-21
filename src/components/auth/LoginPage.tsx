@@ -410,34 +410,6 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex relative">
-      {/* Demo Mode Banner */}
-      {isDemoMode && showDemoInfo && (
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute top-0 left-0 right-0 z-50 bg-blue-600 text-white p-3"
-        >
-          <div className="max-w-4xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <AlertCircle size={20} />
-              <div>
-                <p className="font-semibold">Demo Mode Active</p>
-                <p className="text-sm opacity-90">
-                  Backend not accessible - using demo data.
-                  Login with: admin@aol.com / password123
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowDemoInfo(false)}
-              className="text-white hover:text-blue-200 p-1"
-            >
-              ✕
-            </button>
-          </div>
-        </motion.div>
-      )}
-
       {/* Theme Customizer */}
       <ThemeCustomizer />
 
