@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react'
 import { User, AuthState, LoginCredentials, UserRole } from '@/types/user'
+import { apiService } from '@/services/api'
 
 interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>
