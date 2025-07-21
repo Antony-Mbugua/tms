@@ -121,25 +121,16 @@ class ApiService {
 
   // Authentication methods
   async login(credentials: LoginCredentials): Promise<ApiResponse> {
-    if (this.useFallback) {
-      return this.mockLogin(credentials)
+    const response = await this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    })
+
+    if (response.token) {
+      this.setToken(response.token)
     }
 
-    try {
-      const response = await this.request('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-      })
-
-      if (response.token) {
-        this.setToken(response.token)
-      }
-
-      return response
-    } catch (error) {
-      console.warn('Real API failed, falling back to mock login')
-      return this.mockLogin(credentials)
-    }
+    return response
   }
 
   private async mockLogin(credentials: LoginCredentials): Promise<ApiResponse> {
