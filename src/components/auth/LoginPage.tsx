@@ -585,6 +585,9 @@ export const LoginPage: React.FC = () => {
           </Card>
         </motion.div>
       </motion.div>
+
+      {/* Connection Status - Only show in development */}
+      {ENV_CONFIG.environment === 'development' && <ConnectionStatus />}
     </div>
   )
 }
