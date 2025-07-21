@@ -68,12 +68,26 @@ if (process.env.NODE_ENV !== 'production') {
 // Static files for uploads
 app.use('/uploads', express.static(join(__dirname, 'uploads')));
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+// Health check endpoint with database status
+app.get('/health', async (req, res) => {
+  let dbStatus = 'unknown';
+
+  try {
+    // Import query function
+    const { query } = await import('./config/database.js');
+    await query('SELECT 1');
+    dbStatus = 'connected';
+  } catch (error) {
+    dbStatus = 'disconnected';
+    console.error('Database health check failed:', error.message);
+  }
+
+  res.json({
+    status: 'OK',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV 
+    environment: process.env.NODE_ENV,
+    database: dbStatus,
+    version: '1.0.0'
   });
 });
 
