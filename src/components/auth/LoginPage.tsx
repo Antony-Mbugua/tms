@@ -249,16 +249,33 @@ const ForgotPasswordForm = ({ onBack }: { onBack: () => void }) => {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!email) {
+      setError('Please enter your email address')
+      return
+    }
+
     setIsLoading(true)
-    
-    // Simulate API call for password reset
-    setTimeout(() => {
-      setMessage('Password reset link sent to your email address')
+    setError('')
+
+    try {
+      // Use the API service to request password reset
+      const { apiService } = await import('@/services/api')
+      const response = await apiService.forgotPassword(email)
+
+      if (response.success) {
+        setMessage(response.message || 'Password reset link sent to your email address')
+      } else {
+        setError(response.error || 'Failed to send password reset email')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to send password reset email')
+    } finally {
       setIsLoading(false)
-    }, 2000)
+    }
   }
 
   return (
