@@ -457,8 +457,11 @@ export const LoginPage: React.FC = () => {
       </motion.div>
 
       {/* Right side - Login Form */}
-      <motion.div 
-        className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background"
+      <motion.div
+        className={cn(
+          "w-full lg:w-1/2 flex items-center justify-center p-8 bg-background",
+          isDemoMode && showDemoInfo && "pt-24"
+        )}
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
