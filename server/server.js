@@ -43,16 +43,63 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // CORS configuration
+const getAllowedOrigins = () => {
+  const origins = [];
+
+  if (process.env.NODE_ENV === 'production') {
+    // Production origins
+    if (process.env.FRONTEND_URL) {
+      origins.push(process.env.FRONTEND_URL);
+    }
+    // Add common production patterns
+    origins.push('https://your-domain.com');
+    // Add hostinger patterns if detected
+    if (process.env.DB_HOST && process.env.DB_HOST.includes('hostinger')) {
+      origins.push('https://*.hostinger.com');
+    }
+  } else {
+    // Development origins
+    origins.push(
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:3001',
+      // Local network access
+      'http://192.168.1.0/24',
+      'http://172.16.0.0/12',
+      'http://10.0.0.0/8',
+      // Previous cloud deployments (for migration)
+      'https://83075a47d0554924a408b244f984bf97-e68de0c52b0a490ebbcae1fdc.fly.dev'
+    );
+  }
+
+  return origins;
+};
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? ['https://your-production-domain.com']
-    : [
-        'http://localhost:3000',
-        'http://localhost:3001',
-        'https://83075a47d0554924a408b244f984bf97-e68de0c52b0a490ebbcae1fdc.fly.dev',
-        'http://172.19.4.42:3000',
-        'http://172.19.4.43:3000'
-      ],
+  origin: (origin, callback) => {
+    const allowedOrigins = getAllowedOrigins();
+
+    // Allow requests with no origin (mobile apps, postman, etc.)
+    if (!origin) return callback(null, true);
+
+    // Check if origin is allowed
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.includes('*')) {
+        // Handle wildcard patterns
+        const pattern = allowedOrigin.replace('*', '.*');
+        return new RegExp(pattern).test(origin);
+      }
+      return allowedOrigin === origin;
+    });
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.warn(`CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 
