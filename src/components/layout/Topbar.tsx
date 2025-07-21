@@ -81,11 +81,6 @@ const UserDropdown: React.FC<{
   user: UserType | null;
   onLogout: () => void;
 }> = ({ isOpen, onClose, user, onLogout }) => {
-  const { theme, setTheme, resolvedTheme } = useTheme()
-
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-  }
 
   return (
     <AnimatePresence>
