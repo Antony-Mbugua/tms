@@ -319,6 +319,17 @@ const ForgotPasswordForm = ({ onBack }: { onBack: () => void }) => {
             </motion.div>
           )}
 
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-destructive text-sm text-center p-3 bg-destructive/10 rounded-xl"
+            >
+              <AlertCircle size={16} />
+              {error}
+            </motion.div>
+          )}
+
           <div className="space-y-3">
             <Button
               type="submit"
