@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Bell, 
-  Menu, 
-  User, 
-  LogOut, 
-  Settings, 
-  Moon, 
+import {
+  Bell,
+  Menu,
+  User,
+  LogOut,
+  Settings,
+  Moon,
   Sun,
   Circle
 } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import { User as UserType } from '@/types/user'
 import { Button } from '@/components/ui/button'
 
