@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from '@/lib/utils'
+import ConnectionStatus from '@/components/debug/ConnectionStatus'
+import { ENV_CONFIG } from '@/config/environment'
 import {
   Sparkles,
   Lock,
