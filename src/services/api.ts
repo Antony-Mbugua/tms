@@ -74,16 +74,10 @@ const mockUsers: Record<string, any> = {
 
 class ApiService {
   private token: string | null = null
-  private useFallback: boolean = false
 
   constructor() {
     // Get token from localStorage on initialization
     this.token = localStorage.getItem('aol_token')
-    this.useFallback = !API_BASE_URL
-    
-    if (this.useFallback) {
-      console.log('🔄 Using fallback mock API (backend not accessible)')
-    }
   }
 
   setToken(token: string | null) {
