@@ -9,7 +9,8 @@
     "dev": "nodemon server.js",
     "db:setup": "node scripts/setup-database.js",
     "db:update": "node scripts/update-database.js",
-    "db:seed": "node scripts/seed-database.js"
+    "db:seed": "node scripts/seed-database.js",
+    "validate": "node scripts/validate-connection.js"
   },
   "dependencies": {
     "express": "^4.18.2",
