@@ -112,9 +112,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  const logout = () => {
-    localStorage.removeItem('aol_user')
-    dispatch({ type: 'LOGOUT' })
+  const logout = async () => {
+    try {
+      await apiService.logout()
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      dispatch({ type: 'LOGOUT' })
+    }
   }
 
   const updateUser = (updates: Partial<User>) => {
