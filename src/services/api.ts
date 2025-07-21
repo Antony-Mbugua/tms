@@ -1,26 +1,9 @@
 import { LoginCredentials } from '@/types/user'
 
-// Determine API URL based on environment
-const getApiBaseUrl = () => {
-  if (typeof window === 'undefined') {
-    return 'http://localhost:5000/api'
-  }
-  
-  const hostname = window.location.hostname
-  
-  // If running on fly.dev or other deployed environment
-  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-    // For deployed frontend, we'll use mock API since local backend isn't accessible
-    return null // This will trigger fallback mode
-  }
-  
-  // Local development
-  return 'http://localhost:5000/api'
-}
+// API Configuration for local development
+const API_BASE_URL = 'http://localhost:5000/api'
 
-const API_BASE_URL = getApiBaseUrl()
-
-console.log('🔗 API Base URL:', API_BASE_URL || 'FALLBACK MODE (Mock API)')
+console.log('🔗 API Base URL:', API_BASE_URL)
 
 interface ApiResponse<T = any> {
   success: boolean
