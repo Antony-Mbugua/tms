@@ -44,9 +44,15 @@ app.use(limiter);
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-production-domain.com'] 
-    : ['http://localhost:3000', 'http://localhost:3001'],
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://your-production-domain.com']
+    : [
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'https://83075a47d0554924a408b244f984bf97-e68de0c52b0a490ebbcae1fdc.fly.dev',
+        'http://172.19.4.42:3000',
+        'http://172.19.4.43:3000'
+      ],
   credentials: true
 }));
 
