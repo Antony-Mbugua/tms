@@ -90,16 +90,11 @@ class ApiService {
   }
 
   private async request<T = any>(
-    endpoint: string, 
+    endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
-    // If using fallback mode, don't make real HTTP requests
-    if (this.useFallback) {
-      throw new Error('Backend not accessible - using fallback methods')
-    }
-
     const url = `${API_BASE_URL}${endpoint}`
-    
+
     const config: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
