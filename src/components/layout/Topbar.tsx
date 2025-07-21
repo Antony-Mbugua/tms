@@ -75,17 +75,16 @@ const NotificationDropdown: React.FC<{ isOpen: boolean; onClose: () => void }> =
   )
 }
 
-const UserDropdown: React.FC<{ 
-  isOpen: boolean; 
+const UserDropdown: React.FC<{
+  isOpen: boolean;
   onClose: () => void;
   user: UserType | null;
   onLogout: () => void;
 }> = ({ isOpen, onClose, user, onLogout }) => {
-  const [darkMode, setDarkMode] = useState(true)
+  const { theme, setTheme, resolvedTheme } = useTheme()
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-    document.documentElement.classList.toggle('dark')
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
 
   return (
