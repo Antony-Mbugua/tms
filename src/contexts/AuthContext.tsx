@@ -43,43 +43,20 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 }
 
-// Mock user data for demo
-const mockUsers: Record<string, User> = {
-  'admin@aol.com': {
-    id: '1',
-    email: 'admin@aol.com',
-    firstName: 'John',
-    lastName: 'Admin',
-    role: 'admin',
-    isOnline: true,
-    hasTrainingAccess: true,
-    mfaEnabled: false,
-    createdAt: new Date(),
-    lastLogin: new Date()
-  },
-  'dispatcher@aol.com': {
-    id: '2',
-    email: 'dispatcher@aol.com',
-    firstName: 'Sarah',
-    lastName: 'Dispatcher',
-    role: 'dispatcher',
-    isOnline: true,
-    hasTrainingAccess: true,
-    mfaEnabled: false,
-    createdAt: new Date()
-  },
-  'driver@aol.com': {
-    id: '3',
-    email: 'driver@aol.com',
-    firstName: 'Mike',
-    lastName: 'Driver',
-    role: 'driver',
-    isOnline: false,
-    hasTrainingAccess: false,
-    mfaEnabled: false,
-    createdAt: new Date()
-  }
-}
+// Helper function to transform API user data to frontend User type
+const transformApiUser = (apiUser: any): User => ({
+  id: apiUser.id.toString(),
+  email: apiUser.email,
+  firstName: apiUser.firstName || apiUser.first_name,
+  lastName: apiUser.lastName || apiUser.last_name,
+  role: apiUser.role as UserRole,
+  avatar: apiUser.avatar_url,
+  isOnline: apiUser.isOnline || apiUser.is_online || false,
+  hasTrainingAccess: apiUser.hasTrainingAccess || apiUser.has_training_access || false,
+  mfaEnabled: apiUser.mfaEnabled || apiUser.mfa_enabled || false,
+  createdAt: apiUser.createdAt ? new Date(apiUser.createdAt) : new Date(),
+  lastLogin: apiUser.lastLogin ? new Date(apiUser.lastLogin) : undefined
+})
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
