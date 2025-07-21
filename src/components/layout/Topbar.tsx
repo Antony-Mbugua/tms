@@ -105,15 +105,6 @@ const UserDropdown: React.FC<{
           </div>
 
           <div className="p-2">
-            <button
-              onClick={toggleTheme}
-              className="w-full flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-accent transition-colors"
-            >
-              {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-              <span className="text-sm">
-                {resolvedTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              </span>
-            </button>
 
             <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-accent transition-colors">
               <Settings size={16} />
