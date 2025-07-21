@@ -2,16 +2,25 @@ import { LoginCredentials } from '@/types/user'
 
 // Determine API URL based on environment
 const getApiBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return 'http://localhost:5000/api'
+  }
+
+  const hostname = window.location.hostname
+
   // If running on fly.dev or other deployed environment
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
-    // Try to use the network IP from dev server logs
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+    // For deployed frontend, try the network IP that should be accessible
     return 'http://172.19.4.42:5000/api'
   }
+
   // Local development
   return 'http://localhost:5000/api'
 }
 
 const API_BASE_URL = getApiBaseUrl()
+
+console.log('🔗 API Base URL:', API_BASE_URL)
 
 interface ApiResponse<T = any> {
   success: boolean
