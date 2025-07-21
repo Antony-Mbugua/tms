@@ -66,13 +66,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   })
 
   useEffect(() => {
-    // Check for existing session
-    const savedUser = localStorage.getItem('aol_user')
-    if (savedUser) {
-      dispatch({ type: 'SET_USER', payload: JSON.parse(savedUser) })
-    } else {
-      dispatch({ type: 'SET_LOADING', payload: false })
+    // Check for existing session via API
+    const checkExistingSession = async () => {
+      const token = localStorage.getItem('aol_token')
+      if (token) {
+        try {
+          const response = await apiService.verifyToken()
+          if (response.success && response.user) {
+            const user = transformApiUser(response.user)
+            dispatch({ type: 'SET_USER', payload: user })
+          } else {
+            // Invalid token, clear it
+            localStorage.removeItem('aol_token')
+            dispatch({ type: 'SET_LOADING', payload: false })
+          }
+        } catch (error) {
+          console.error('Token verification failed:', error)
+          localStorage.removeItem('aol_token')
+          dispatch({ type: 'SET_LOADING', payload: false })
+        }
+      } else {
+        dispatch({ type: 'SET_LOADING', payload: false })
+      }
     }
+
+    checkExistingSession()
   }, [])
 
   const login = async (credentials: LoginCredentials) => {
