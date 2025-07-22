@@ -199,44 +199,119 @@ class ApiService {
     }
   }
 
+  // Demo mode data
+  private demoData = {
+    stats: { totalLoads: 125, activeTrucks: 18, pendingInvoices: 7, revenue: 245000 },
+    notifications: [],
+    users: [],
+    loads: [],
+    trucks: [],
+    invoices: [],
+    expenses: [],
+    training: []
+  }
+
   // Dashboard methods
   async getDashboardStats(): Promise<ApiResponse> {
-    return this.request('/dashboard/stats')
+    try {
+      return await this.request('/dashboard/stats')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.stats }
+      }
+      throw error
+    }
   }
 
   async getNotifications(): Promise<ApiResponse> {
-    return this.request('/dashboard/notifications')
+    try {
+      return await this.request('/dashboard/notifications')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.notifications }
+      }
+      throw error
+    }
   }
 
   async markNotificationRead(id: string): Promise<ApiResponse> {
-    return this.request(`/dashboard/notifications/${id}/read`, {
-      method: 'PATCH',
-    })
+    try {
+      return await this.request(`/dashboard/notifications/${id}/read`, {
+        method: 'PATCH',
+      })
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true }
+      }
+      throw error
+    }
   }
 
   // Data fetching methods
   async getUsers(): Promise<ApiResponse> {
-    return this.request('/users')
+    try {
+      return await this.request('/users')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.users }
+      }
+      throw error
+    }
   }
 
   async getLoads(): Promise<ApiResponse> {
-    return this.request('/loads')
+    try {
+      return await this.request('/loads')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.loads }
+      }
+      throw error
+    }
   }
 
   async getTrucks(): Promise<ApiResponse> {
-    return this.request('/trucks')
+    try {
+      return await this.request('/trucks')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.trucks }
+      }
+      throw error
+    }
   }
 
   async getInvoices(): Promise<ApiResponse> {
-    return this.request('/invoices')
+    try {
+      return await this.request('/invoices')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.invoices }
+      }
+      throw error
+    }
   }
 
   async getExpenses(): Promise<ApiResponse> {
-    return this.request('/expenses')
+    try {
+      return await this.request('/expenses')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.expenses }
+      }
+      throw error
+    }
   }
 
   async getTrainingModules(): Promise<ApiResponse> {
-    return this.request('/training/modules')
+    try {
+      return await this.request('/training/modules')
+    } catch (error) {
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return { success: true, data: this.demoData.training }
+      }
+      throw error
+    }
   }
 }
 
