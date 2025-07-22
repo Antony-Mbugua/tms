@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
 
     // Find user by email
     const users = await query(
-      'SELECT id, email, password_hash, first_name, last_name, phone, role, is_active, is_online, has_training_access, mfa_enabled, mfa_secret FROM users WHERE email = ?',
+      'SELECT id, email, password, first_name, last_name, phone, role, is_active, is_online, has_training_access, mfa_enabled, mfa_secret FROM users WHERE email = ?',
       [email.toLowerCase()]
     );
 
