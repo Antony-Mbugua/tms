@@ -1,0 +1,4 @@
+{"@timestamp":"2025-07-22 19:56:55.814","level":"info","message":"Database pool created successfully","source":"aol-tms-backend","environment":"development","service":"aol-tms-backend","version":"2.0.0","hostname":"localhost","pid":5906}
+{"@timestamp":"2025-07-22 19:56:55.847","level":"info","message":"Initializing Socket.IO server...","source":"aol-tms-backend","environment":"development","service":"aol-tms-backend","version":"2.0.0","hostname":"localhost","pid":5906}
+{"@timestamp":"2025-07-22 19:56:55.848","level":"info","message":"Socket.IO server initialized successfully","source":"aol-tms-backend","environment":"development","service":"aol-tms-backend","version":"2.0.0","hostname":"localhost","pid":5906}
+{"@timestamp":"2025-07-22 19:56:55.849","level":"info","message":"Testing database connection...","source":"aol-tms-backend","environment":"development","service":"aol-tms-backend","version":"2.0.0","hostname":"localhost","pid":5906}

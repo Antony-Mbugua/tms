@@ -1,0 +1,102 @@
+2025-07-22 19:56:55.873 [ERROR]: uncaughtException: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
+Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
+    at RedisClient.on_error (/app/code/node_modules/express-brute-redis/node_modules/redis/index.js:185:24)
+    at Socket.<anonymous> (/app/code/node_modules/express-brute-redis/node_modules/redis/index.js:95:14)
+    at Socket.emit (node:events:518:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+Stack: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
+    at RedisClient.on_error (/app/code/node_modules/express-brute-redis/node_modules/redis/index.js:185:24)
+    at Socket.<anonymous> (/app/code/node_modules/express-brute-redis/node_modules/redis/index.js:95:14)
+    at Socket.emit (node:events:518:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+Meta: {
+  "error": {},
+  "exception": true,
+  "date": "Tue Jul 22 2025 19:56:55 GMT+0000 (Coordinated Universal Time)",
+  "process": {
+    "pid": 5906,
+    "uid": 0,
+    "gid": 0,
+    "cwd": "/app/code/backend",
+    "execPath": "/usr/local/bin/node",
+    "version": "v22.16.0",
+    "argv": [
+      "/usr/local/bin/node",
+      "/app/code/backend/server.js"
+    ],
+    "memoryUsage": {
+      "rss": 253460480,
+      "heapTotal": 59011072,
+      "heapUsed": 32731104,
+      "external": 149740867,
+      "arrayBuffers": 146163784
+    }
+  },
+  "os": {
+    "loadavg": [
+      0.48,
+      0.42,
+      0.18
+    ],
+    "uptime": 11058.59
+  },
+  "trace": [
+    {
+      "column": 24,
+      "file": "/app/code/node_modules/express-brute-redis/node_modules/redis/index.js",
+      "function": "RedisClient.on_error",
+      "line": 185,
+      "method": "on_error",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "/app/code/node_modules/express-brute-redis/node_modules/redis/index.js",
+      "function": null,
+      "line": 95,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 28,
+      "file": "node:events",
+      "function": "Socket.emit",
+      "line": 518,
+      "method": "emit",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "node:internal/streams/destroy",
+      "function": "emitErrorNT",
+      "line": 170,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 3,
+      "file": "node:internal/streams/destroy",
+      "function": "emitErrorCloseNT",
+      "line": 129,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 5906
+}

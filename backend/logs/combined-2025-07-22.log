@@ -1,0 +1,32 @@
+2025-07-22 19:56:55.816 [INFO]: Database pool created successfully
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 5906
+}
+2025-07-22 19:56:55.847 [INFO]: Initializing Socket.IO server...
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 5906
+}
+2025-07-22 19:56:55.848 [INFO]: Socket.IO server initialized successfully
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 5906
+}
+2025-07-22 19:56:55.849 [INFO]: Testing database connection...
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 5906
+}

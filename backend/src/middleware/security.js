@@ -20,16 +20,23 @@ const securityCache = new NodeCache({ stdTTL: 1800, checkperiod: 60 });
 
 // Brute force protection store
 let bruteStore;
-try {
-  // Use Redis if available, fallback to memory
-  const RedisStore = ExpressBruteRedis;
-  bruteStore = new RedisStore({
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    port: process.env.REDIS_PORT || 6379,
-  });
-} catch (error) {
-  logger.warn('Redis not available, using memory store for brute force protection');
+if (process.env.NODE_ENV === 'production' && process.env.REDIS_HOST) {
+  try {
+    // Use Redis in production if available
+    const RedisStore = ExpressBruteRedis;
+    bruteStore = new RedisStore({
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT || 6379,
+    });
+    logger.info('Using Redis store for brute force protection');
+  } catch (error) {
+    logger.warn('Redis not available, using memory store for brute force protection');
+    bruteStore = new ExpressBrute.MemoryStore();
+  }
+} else {
+  // Use memory store in development
   bruteStore = new ExpressBrute.MemoryStore();
+  logger.info('Using memory store for brute force protection (development mode)');
 }
 
 // =============================================
