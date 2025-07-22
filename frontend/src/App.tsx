@@ -11,6 +11,7 @@ import { AccountantDashboard } from '@/components/dashboards/AccountantDashboard
 import { ITSupportDashboard } from '@/components/dashboards/ITSupportDashboard'
 import { TrainingDashboard } from '@/components/dashboards/TrainingDashboard'
 import { LoadingScreen } from '@/components/ui/LoadingScreen'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth()
