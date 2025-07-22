@@ -23,7 +23,8 @@ const ConnectionStatus: React.FC = () => {
     try {
       const startTime = Date.now();
       
-      const response = await fetch(`${ENV_CONFIG.apiBaseUrl}/../health`, {
+      const healthUrl = ENV_CONFIG.apiBaseUrl.replace('/api', '/health');
+      const response = await fetch(healthUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
