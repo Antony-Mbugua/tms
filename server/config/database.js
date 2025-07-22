@@ -46,6 +46,12 @@ export const query = async (sql, params = []) => {
     return results;
   } catch (error) {
     console.error('Database query error:', error);
+
+    // In development, provide helpful error message
+    if (process.env.NODE_ENV === 'development' && error.code === 'ECONNREFUSED') {
+      throw new Error('Database not available. Please start XAMPP MySQL service.');
+    }
+
     throw error;
   }
 };
