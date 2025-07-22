@@ -49,7 +49,13 @@ const DatabaseStatusNotice: React.FC = () => {
     }
   }, []);
 
-  if ((!showNotice || isDatabaseConnected === true) && !(ENV_CONFIG.environment === 'development' || ENV_CONFIG.apiBaseUrl.includes('fly.dev'))) {
+  // Always show notice for fly.dev demo, or when database disconnected in dev
+  if (!showNotice && !ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
+    return null;
+  }
+
+  // Don't show if database is connected and not on fly.dev
+  if (isDatabaseConnected === true && !ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
     return null;
   }
 
