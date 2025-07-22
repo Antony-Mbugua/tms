@@ -1,0 +1,52 @@
+{
+  "name": "aol-tms-backend",
+  "version": "2.0.0",
+  "description": "AOL TMS Backend API with Zero Trust Security",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "jest",
+    "db:setup": "node scripts/setup-database.js",
+    "db:migrate": "node scripts/migrate-database.js",
+    "db:seed": "node scripts/seed-database.js",
+    "security:scan": "npm audit && snyk test",
+    "validate": "node scripts/validate-system.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "multer": "^1.4.5-lts.1",
+    "joi": "^17.11.0",
+    "dotenv": "^16.3.1",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "crypto": "^1.0.1",
+    "speakeasy": "^2.0.0",
+    "qrcode": "^1.5.3",
+    "node-cron": "^3.0.3",
+    "ua-parser-js": "^1.0.37",
+    "geoip-lite": "^1.4.10",
+    "winston": "^3.11.0",
+    "express-slow-down": "^2.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "snyk": "^1.1258.0"
+  },
+  "keywords": ["logistics", "transportation", "tms", "zero-trust", "security"],
+  "author": "All Over Logistics",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
