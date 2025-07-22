@@ -15,6 +15,7 @@ const ConnectionStatus: React.FC = () => {
     latency: null,
     error: null
   });
+  const [isMinimized, setIsMinimized] = useState(false);
 
   const checkConnection = async () => {
     setStatus(prev => ({ ...prev, api: 'checking', error: null }));
