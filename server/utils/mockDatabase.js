@@ -43,12 +43,14 @@ const mockData = {
 };
 
 export const mockQuery = async (sql, params = []) => {
+  console.log('🔄 Mock DB Query:', sql.substring(0, 100) + '...', 'Params:', params.slice(0, 2));
   const sqlLower = sql.toLowerCase().trim();
-  
+
   // Handle login queries
   if (sqlLower.includes('select') && sqlLower.includes('users') && sqlLower.includes('email')) {
     const email = params[0];
-    const user = mockUsers.find(u => u.email === email);
+    const user = mockUsers.find(u => u.email === email.toLowerCase());
+    console.log('🔍 Mock DB: Looking for user with email:', email, 'Found:', user ? 'Yes' : 'No');
     return user ? [user] : [];
   }
   
