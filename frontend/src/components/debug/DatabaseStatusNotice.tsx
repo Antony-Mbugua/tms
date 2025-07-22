@@ -31,9 +31,10 @@ const DatabaseStatusNotice: React.FC = () => {
       }
     };
 
-    if (ENV_CONFIG.environment === 'development') {
+    // Always check in development, and also for fly.dev demo
+    if (ENV_CONFIG.environment === 'development' || ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
       checkDatabaseStatus();
-      const interval = setInterval(checkDatabaseStatus, 10000); // Check every 10 seconds
+      const interval = setInterval(checkDatabaseStatus, 15000); // Check every 15 seconds
       return () => clearInterval(interval);
     }
   }, []);
