@@ -63,75 +63,36 @@ class ApiService {
 
   // Authentication methods
   async login(credentials: LoginCredentials): Promise<ApiResponse> {
-    // Check if backend is available
-    const isBackendAvailable = await this.checkBackendAvailability()
+    const response = await this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    })
 
-    if (!isBackendAvailable) {
-      console.log('🔄 Using mock API for login')
-      return await mockApiService.login(credentials)
+    if (response.token) {
+      this.setToken(response.token)
     }
 
-    try {
-      const response = await this.request('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-      })
-
-      if (response.token) {
-        this.setToken(response.token)
-      }
-
-      return response
-    } catch (error) {
-      console.log('🔄 Backend failed, falling back to mock API')
-      backendAvailable = false
-      return await mockApiService.login(credentials)
-    }
+    return response
   }
 
   async logout(): Promise<ApiResponse> {
-    if (!backendAvailable) {
-      this.setToken(null)
-      return await mockApiService.logout()
-    }
+    const response = await this.request('/auth/logout', {
+      method: 'POST',
+    })
 
-    try {
-      const response = await this.request('/auth/logout', {
-        method: 'POST',
-      })
-      this.setToken(null)
-      return response
-    } catch (error) {
-      this.setToken(null)
-      return await mockApiService.logout()
-    }
+    this.setToken(null)
+    return response
   }
 
   async verifyToken(): Promise<ApiResponse> {
-    if (!backendAvailable) {
-      return await mockApiService.verifyToken()
-    }
-
-    try {
-      return await this.request('/auth/verify')
-    } catch (error) {
-      return await mockApiService.verifyToken()
-    }
+    return this.request('/auth/verify')
   }
 
   async forgotPassword(email: string): Promise<ApiResponse> {
-    if (!backendAvailable) {
-      return await mockApiService.forgotPassword(email)
-    }
-
-    try {
-      return await this.request('/auth/forgot-password', {
-        method: 'POST',
-        body: JSON.stringify({ email }),
-      })
-    } catch (error) {
-      return await mockApiService.forgotPassword(email)
-    }
+    return this.request('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    })
   }
 
   // Dashboard methods
