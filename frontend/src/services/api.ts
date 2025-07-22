@@ -76,18 +76,67 @@ class ApiService {
     }
   }
 
-  // Authentication methods
-  async login(credentials: LoginCredentials): Promise<ApiResponse> {
-    const response = await this.request('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    })
-
-    if (response.token) {
-      this.setToken(response.token)
+  // Demo mode authentication for fly.dev deployment
+  private demoLogin(credentials: LoginCredentials): ApiResponse {
+    const validUsers = {
+      'admin@alloverlogistics.com': {
+        id: 1,
+        email: 'admin@alloverlogistics.com',
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin',
+        phone: '+1234567890'
+      },
+      'dispatcher@alloverlogistics.com': {
+        id: 2,
+        email: 'dispatcher@alloverlogistics.com',
+        firstName: 'John',
+        lastName: 'Dispatcher',
+        role: 'dispatcher',
+        phone: '+1234567891'
+      }
     }
 
-    return response
+    const user = validUsers[credentials.email as keyof typeof validUsers]
+
+    if (user && credentials.password === 'admin123') {
+      const demoToken = 'demo_token_' + Date.now()
+      this.setToken(demoToken)
+
+      return {
+        success: true,
+        token: demoToken,
+        user
+      }
+    }
+
+    return {
+      success: false,
+      error: 'Invalid email or password'
+    }
+  }
+
+  // Authentication methods
+  async login(credentials: LoginCredentials): Promise<ApiResponse> {
+    try {
+      const response = await this.request('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+      })
+
+      if (response.token) {
+        this.setToken(response.token)
+      }
+
+      return response
+    } catch (error) {
+      // If backend unavailable, use demo mode
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        console.log('🚀 Using demo mode authentication')
+        return this.demoLogin(credentials)
+      }
+      throw error
+    }
   }
 
   async logout(): Promise<ApiResponse> {
