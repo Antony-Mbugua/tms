@@ -220,6 +220,23 @@ const WelcomeAnimation = () => {
 const ThemeCustomizer = () => {
   const { theme, setTheme, themeColor, setThemeColor } = useTheme()
   const [showPanel, setShowPanel] = useState(false)
+  const [highContrast, setHighContrast] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  // Apply accessibility settings
+  useEffect(() => {
+    if (highContrast) {
+      document.documentElement.classList.add('high-contrast')
+    } else {
+      document.documentElement.classList.remove('high-contrast')
+    }
+
+    if (reducedMotion) {
+      document.documentElement.classList.add('reduce-motion')
+    } else {
+      document.documentElement.classList.remove('reduce-motion')
+    }
+  }, [highContrast, reducedMotion])
 
   return (
     <div className="absolute top-6 right-6 z-50">
@@ -232,6 +249,7 @@ const ThemeCustomizer = () => {
           size="sm"
           onClick={() => setShowPanel(!showPanel)}
           className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 shadow-lg"
+          aria-label="Open theme and accessibility settings"
         >
           <Palette size={16} />
         </Button>
