@@ -9,12 +9,17 @@ const DatabaseStatusNotice: React.FC = () => {
     const checkDatabaseStatus = async () => {
       try {
         const healthUrl = ENV_CONFIG.apiBaseUrl.replace('/api', '/health');
-        const response = await fetch(healthUrl, { 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        const response = await fetch(healthUrl, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
-          signal: AbortSignal.timeout(3000)
+          signal: controller.signal
         });
-        
+
+        clearTimeout(timeoutId);
+
         if (response.ok) {
           const data = await response.json();
           setIsDatabaseConnected(data.database === 'connected');
@@ -26,6 +31,8 @@ const DatabaseStatusNotice: React.FC = () => {
           setShowNotice(true);
         }
       } catch (error) {
+        // Silently handle fetch errors for demo mode
+        console.log('Backend not available, running in demo mode');
         setIsDatabaseConnected(false);
         setShowNotice(true);
       }
@@ -34,8 +41,11 @@ const DatabaseStatusNotice: React.FC = () => {
     // Always check in development, and also for fly.dev demo
     if (ENV_CONFIG.environment === 'development' || ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
       checkDatabaseStatus();
-      const interval = setInterval(checkDatabaseStatus, 15000); // Check every 15 seconds
-      return () => clearInterval(interval);
+      // Only set interval for local development, not for fly.dev demo
+      if (ENV_CONFIG.environment === 'development' && !ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
+        const interval = setInterval(checkDatabaseStatus, 15000);
+        return () => clearInterval(interval);
+      }
     }
   }, []);
 
