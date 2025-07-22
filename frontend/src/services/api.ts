@@ -2,7 +2,7 @@ import { LoginCredentials } from '@/types/user'
 import { ENV_CONFIG } from '@/config/environment'
 
 // Dynamic API Configuration based on environment
-const API_BASE_URL = ENV_CONFIG.apiBaseUrl
+const API_BASE_URL = ENV_CONFIG?.apiBaseUrl || 'http://localhost:5000/api'
 
 console.log('🔗 API Base URL:', API_BASE_URL)
 
