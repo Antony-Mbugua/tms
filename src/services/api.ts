@@ -1,14 +1,10 @@
 import { LoginCredentials } from '@/types/user'
 import { ENV_CONFIG } from '@/config/environment'
-import { mockApiService } from './mockApi'
 
 // Dynamic API Configuration based on environment
 const API_BASE_URL = ENV_CONFIG.apiBaseUrl
 
 console.log('🔗 API Base URL:', API_BASE_URL)
-
-// Backend availability flag
-let backendAvailable: boolean | null = null
 
 interface ApiResponse<T = any> {
   success: boolean
