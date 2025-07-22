@@ -20,7 +20,7 @@ const mockUsers = [
   {
     id: 2,
     email: 'dispatcher@alloverlogistics.com',
-    password_hash: '$2a$12$4Q8QfEz.0Q4Q1Q2Q3Q4Q5uOQ6Q7Q8Q9Q0Q1Q2Q3Q4Q5Q6Q7Q8Q9Q0Q',
+    password: '$2a$12$4Q8QfEz.0Q4Q1Q2Q3Q4Q5uOQ6Q7Q8Q9Q0Q1Q2Q3Q4Q5Q6Q7Q8Q9Q0Q',
     first_name: 'John',
     last_name: 'Dispatcher',
     phone: '+1234567891',
