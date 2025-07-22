@@ -18,7 +18,7 @@ const dbConfig = {
 // Create connection pool
 const pool = mysql.createPool(dbConfig);
 
-// Test connection
+// Test connection (non-blocking in development)
 const testConnection = async () => {
   try {
     const connection = await pool.getConnection();
@@ -26,7 +26,13 @@ const testConnection = async () => {
     connection.release();
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
-    process.exit(1);
+    console.log('🔧 Server will continue running without database connection');
+    console.log('💡 To fix: Start XAMPP MySQL service or check database configuration');
+
+    // Only exit in production
+    if (process.env.NODE_ENV === 'production') {
+      process.exit(1);
+    }
   }
 };
 
