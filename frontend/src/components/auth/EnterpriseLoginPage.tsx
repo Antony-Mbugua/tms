@@ -120,65 +120,62 @@ const WelcomeAnimation = () => {
 
       {/* Content */}
       <div className="relative flex items-center justify-center h-full px-8">
-        <div className="text-center text-white max-w-2xl">
+        <div className="text-center text-white max-w-xl">
+          {/* Company Logo and Truck Icon */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="mb-12"
+            initial={{ scale: 0, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 20,
+              delay: 0.3
+            }}
+            className="flex items-center justify-center mb-12"
           >
-            {/* Company Logo and Truck Icon */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 200,
-                damping: 15,
-                delay: 0.5 
-              }}
-              className="flex items-center justify-center mb-8"
-            >
-              <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/30">
-                <Truck size={64} className="text-white" />
-              </div>
-            </motion.div>
-
-            {/* Welcome Message */}
-            <motion.h1 
-              className="text-5xl lg:text-7xl font-bold mb-6 leading-tight"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              Welcome to
-            </motion.h1>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1, duration: 0.5 }}
-              className="mb-8"
-            >
-              <h2 className="text-4xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                All Over Logistics
-              </h2>
-              <div className="text-2xl lg:text-3xl font-semibold text-white/90">
-                Transportation Management System
-              </div>
-            </motion.div>
-
-            <motion.p 
-              className="text-xl lg:text-2xl text-white/80 mb-12 leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2 }}
-            >
-              Enterprise-Grade Logistics Management Platform
-              <br />
-              <span className="text-lg text-white/70">Streamline Operations • Optimize Routes • Maximize Efficiency</span>
-            </motion.p>
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-8 shadow-2xl border border-white/30">
+              <Truck size={80} className="text-white" />
+            </div>
           </motion.div>
+
+          {/* Welcome Message - appears with confetti */}
+          <AnimatePresence>
+            {showWelcome && (
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                  delay: 0.2
+                }}
+                className="mb-8"
+              >
+                <motion.h1
+                  className="text-4xl lg:text-6xl font-bold mb-4 leading-tight"
+                  animate={{
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut"
+                  }}
+                >
+                  Welcome to
+                </motion.h1>
+
+                <h2 className="text-3xl lg:text-5xl font-black mb-3 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+                  All Over Logistics
+                </h2>
+                <div className="text-lg lg:text-xl font-medium text-white/90">
+                  Transportation Management System
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           
           {/* Feature Icons */}
           <motion.div 
