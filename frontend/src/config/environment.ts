@@ -21,10 +21,11 @@ const getEnvironmentConfig = (): EnvironmentConfig => {
     // Local development (Backend server)
     apiBaseUrl = 'http://localhost:5000/api';
   } else if (window.location.hostname.includes('fly.dev')) {
-    // Fly.dev deployment - backend is at different subdomain
+    // Fly.dev deployment - try backend subdomain first, fallback to demo mode
     if (window.location.hostname.includes('83075a47d0554924a408b244f984bf97')) {
-      // Frontend deployment, backend might be separate
+      // Frontend deployment, check if backend is available
       apiBaseUrl = 'https://aol-tms-backend.fly.dev/api';
+      // Note: Will fallback to mock mode if backend unavailable
     } else {
       // Same domain deployment
       apiBaseUrl = `${window.location.protocol}//${window.location.hostname}/api`;
