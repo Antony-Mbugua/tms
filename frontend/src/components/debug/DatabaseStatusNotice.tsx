@@ -39,7 +39,7 @@ const DatabaseStatusNotice: React.FC = () => {
     };
 
     // Always check in development, and also for fly.dev demo
-    if (ENV_CONFIG.environment === 'development' || ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
+    if (ENV_CONFIG?.environment === 'development' || ENV_CONFIG?.apiBaseUrl?.includes('fly.dev')) {
       checkDatabaseStatus();
       // Only set interval for local development, not for fly.dev demo
       if (ENV_CONFIG.environment === 'development' && !ENV_CONFIG.apiBaseUrl.includes('fly.dev')) {
