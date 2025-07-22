@@ -84,25 +84,27 @@ const AppRoutes: React.FC = () => {
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <div className="min-h-screen bg-background text-foreground">
-            <Routes>
-              <Route path="/login" element={<EnterpriseLoginPage />} />
-              <Route
-                path="/*"
-                element={
-                  <ProtectedRoute>
-                    <AppRoutes />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </div>
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
+            <div className="min-h-screen bg-background text-foreground">
+              <Routes>
+                <Route path="/login" element={<EnterpriseLoginPage />} />
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute>
+                      <AppRoutes />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </div>
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   )
 }
 
