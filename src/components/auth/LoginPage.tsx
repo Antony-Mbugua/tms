@@ -18,7 +18,8 @@ import {
   Monitor,
   Eye,
   EyeOff,
-  AlertCircle
+  AlertCircle,
+  Truck
 } from 'lucide-react'
 
 // Theme color options
