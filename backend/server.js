@@ -392,10 +392,20 @@ process.on('unhandledRejection', (reason, promise) => {
 
 const startServer = async () => {
   try {
-    // Test database connection
-    logger.info('Testing database connection...');
-    await testConnection();
-    logger.info('Database connection successful');
+    // Test database connection (optional in development)
+    if (process.env.NODE_ENV === 'production') {
+      logger.info('Testing database connection...');
+      await testConnection();
+      logger.info('Database connection successful');
+    } else {
+      logger.info('Running in development mode - database connection optional');
+      try {
+        await testConnection();
+        logger.info('Database connection successful');
+      } catch (error) {
+        logger.warn('Database connection failed, running in mock mode:', error.message);
+      }
+    }
 
     // Start the server
     server.listen(PORT, () => {
