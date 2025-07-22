@@ -122,9 +122,10 @@ const CelebrationAnimation = () => {
                 repeat: Infinity,
                 repeatType: "reverse" 
               }}
-              className="text-6xl mb-4"
+              className="text-6xl mb-4 flex items-center justify-center"
             >
-              🚛
+              <span className="mr-2">🚛</span>
+              <Truck size={48} className="text-white/90" />
             </motion.div>
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
               Welcome to
