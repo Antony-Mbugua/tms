@@ -39,7 +39,7 @@ const DatabaseStatusNotice: React.FC = () => {
     }
   }, []);
 
-  if (ENV_CONFIG.environment !== 'development' || !showNotice || isDatabaseConnected === true) {
+  if ((!showNotice || isDatabaseConnected === true) && !(ENV_CONFIG.environment === 'development' || ENV_CONFIG.apiBaseUrl.includes('fly.dev'))) {
     return null;
   }
 
