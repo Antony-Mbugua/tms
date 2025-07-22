@@ -1,35 +1,47 @@
 // Mock database for development when MySQL is not available
 
+// Mock users with known password hashes
 const mockUsers = [
   {
     id: 1,
     email: 'admin@alloverlogistics.com',
-    password_hash: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LeeDUGd/JQfYxdnOK', // admin123
+    password_hash: '$2a$12$4Q8QfEz.0Q4Q1Q2Q3Q4Q5uOQ6Q7Q8Q9Q0Q1Q2Q3Q4Q5Q6Q7Q8Q9Q0Q', // This will be checked differently for mock
     first_name: 'Admin',
     last_name: 'User',
     phone: '+1234567890',
     role: 'admin',
-    is_active: true,
-    is_online: false,
-    has_training_access: true,
-    mfa_enabled: false,
+    is_active: 1,
+    is_online: 0,
+    has_training_access: 1,
+    mfa_enabled: 0,
     theme_preference: 'dark',
     theme_color: 'blue'
   },
   {
     id: 2,
     email: 'dispatcher@alloverlogistics.com',
-    password_hash: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LeeDUGd/JQfYxdnOK', // dispatch123
+    password_hash: '$2a$12$4Q8QfEz.0Q4Q1Q2Q3Q4Q5uOQ6Q7Q8Q9Q0Q1Q2Q3Q4Q5Q6Q7Q8Q9Q0Q',
     first_name: 'John',
     last_name: 'Dispatcher',
     phone: '+1234567891',
     role: 'dispatcher',
-    is_active: true,
-    is_online: false,
-    has_training_access: true,
-    mfa_enabled: false
+    is_active: 1,
+    is_online: 0,
+    has_training_access: 1,
+    mfa_enabled: 0
   }
 ];
+
+// Mock password validation for development
+export const mockPasswordCheck = (password, userEmail) => {
+  console.log('🔐 Mock password check for:', userEmail, 'password:', password);
+  // In mock mode, accept these simple passwords
+  const validPasswords = {
+    'admin@alloverlogistics.com': 'admin123',
+    'dispatcher@alloverlogistics.com': 'dispatch123'
+  };
+  return validPasswords[userEmail] === password;
+};
 
 const mockData = {
   users: mockUsers,
