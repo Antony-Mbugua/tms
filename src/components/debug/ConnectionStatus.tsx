@@ -83,12 +83,35 @@ const ConnectionStatus: React.FC = () => {
     }
   };
 
+  if (isMinimized) {
+    return (
+      <div className="fixed bottom-4 right-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700">
+        <button
+          onClick={() => setIsMinimized(false)}
+          className="flex items-center gap-2 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+        >
+          <div className={`w-2 h-2 rounded-full ${status.api === 'connected' ? 'bg-green-500' : status.api === 'checking' ? 'bg-yellow-500' : 'bg-red-500'}`} />
+          <span className="text-xs text-gray-600 dark:text-gray-400">Status</span>
+          <span className="text-xs">▼</span>
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed bottom-4 right-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 border border-gray-200 dark:border-gray-700 min-w-[300px]">
-      <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">
-        Connection Status
-      </h3>
-      
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+          Connection Status
+        </h3>
+        <button
+          onClick={() => setIsMinimized(true)}
+          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xs p-1"
+        >
+          ▲
+        </button>
+      </div>
+
       <div className="space-y-2 text-sm">
         <div className="flex justify-between items-center">
           <span>Environment:</span>
@@ -96,7 +119,7 @@ const ConnectionStatus: React.FC = () => {
             {ENV_CONFIG.environment}
           </span>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <span>API Server:</span>
           <span className={`flex items-center gap-1 ${getStatusColor(status.api)}`}>
@@ -104,7 +127,7 @@ const ConnectionStatus: React.FC = () => {
             {status.api}
           </span>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <span>Database:</span>
           <span className={`flex items-center gap-1 ${getStatusColor(status.database)}`}>
@@ -112,7 +135,7 @@ const ConnectionStatus: React.FC = () => {
             {status.database}
           </span>
         </div>
-        
+
         {status.latency && (
           <div className="flex justify-between items-center">
             <span>Latency:</span>
@@ -121,19 +144,19 @@ const ConnectionStatus: React.FC = () => {
             </span>
           </div>
         )}
-        
-        <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 break-all">
           API: {ENV_CONFIG.apiBaseUrl}
         </div>
-        
+
         {status.error && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded p-2 mt-2">
-            <div className="text-xs text-red-600 dark:text-red-400">
+            <div className="text-xs text-red-600 dark:text-red-400 break-all">
               Error: {status.error}
             </div>
           </div>
         )}
-        
+
         <button
           onClick={checkConnection}
           className="w-full mt-3 bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded transition-colors"
