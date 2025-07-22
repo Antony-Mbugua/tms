@@ -304,7 +304,7 @@ router.post('/reset-password', async (req, res) => {
 
     // Update user password
     await query(
-      'UPDATE users SET password_hash = ?, updated_at = NOW() WHERE id = ?',
+      'UPDATE users SET password = ?, updated_at = NOW() WHERE id = ?',
       [passwordHash, resetRecord.user_id]
     );
 
