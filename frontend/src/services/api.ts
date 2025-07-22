@@ -140,16 +140,45 @@ class ApiService {
   }
 
   async logout(): Promise<ApiResponse> {
-    const response = await this.request('/auth/logout', {
-      method: 'POST',
-    })
+    try {
+      const response = await this.request('/auth/logout', {
+        method: 'POST',
+      })
 
-    this.setToken(null)
-    return response
+      this.setToken(null)
+      return response
+    } catch (error) {
+      // Demo mode logout
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        this.setToken(null)
+        return { success: true, message: 'Logged out (demo mode)' }
+      }
+      throw error
+    }
   }
 
   async verifyToken(): Promise<ApiResponse> {
-    return this.request('/auth/verify')
+    try {
+      return await this.request('/auth/verify')
+    } catch (error) {
+      // Demo mode token verification
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        if (this.token && this.token.startsWith('demo_token_')) {
+          return {
+            success: true,
+            user: {
+              id: 1,
+              email: 'admin@alloverlogistics.com',
+              firstName: 'Admin',
+              lastName: 'User',
+              role: 'admin'
+            }
+          }
+        }
+        return { success: false, error: 'No valid demo token' }
+      }
+      throw error
+    }
   }
 
   async forgotPassword(email: string): Promise<ApiResponse> {
