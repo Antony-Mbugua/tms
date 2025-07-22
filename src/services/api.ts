@@ -24,6 +24,37 @@ class ApiService {
   constructor() {
     // Get token from localStorage on initialization
     this.token = localStorage.getItem('aol_token')
+    // Check backend availability on initialization
+    this.checkBackendAvailability()
+  }
+
+  private async checkBackendAvailability(): Promise<boolean> {
+    if (backendAvailable !== null) {
+      return backendAvailable
+    }
+
+    try {
+      const healthUrl = API_BASE_URL.replace('/api', '/health')
+      const response = await fetch(healthUrl, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(5000) // 5 second timeout
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        backendAvailable = data.status === 'OK'
+        console.log('✅ Backend is available')
+      } else {
+        backendAvailable = false
+        console.log('❌ Backend returned error status')
+      }
+    } catch (error) {
+      backendAvailable = false
+      console.log('❌ Backend is not available, using mock mode')
+    }
+
+    return backendAvailable
   }
 
   setToken(token: string | null) {
