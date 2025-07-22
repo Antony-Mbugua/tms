@@ -132,3 +132,19 @@ Meta: {
   "port": 3306,
   "fatal": true
 }
+2025-07-22 19:57:30.562 [ERROR]: Database connection test failed: connect ECONNREFUSED 127.0.0.1:3306
+Stack: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6020,
+  "errno": -111,
+  "code": "ECONNREFUSED",
+  "syscall": "connect",
+  "address": "127.0.0.1",
+  "port": 3306,
+  "fatal": true
+}
