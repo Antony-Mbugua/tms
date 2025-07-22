@@ -123,7 +123,7 @@ const CelebrationAnimation = () => {
               }}
               className="text-6xl mb-4"
             >
-              ��
+              🚛
             </motion.div>
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
               Welcome to
