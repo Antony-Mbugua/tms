@@ -630,6 +630,8 @@ const EnterpriseLoginPage: React.FC = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="h-12 pr-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             autoComplete="current-password"
+                            aria-describedby="password-description"
+                            aria-required="true"
                           />
                           <button
                             type="button"
