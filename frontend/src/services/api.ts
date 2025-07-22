@@ -182,10 +182,21 @@ class ApiService {
   }
 
   async forgotPassword(email: string): Promise<ApiResponse> {
-    return this.request('/auth/forgot-password', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-    })
+    try {
+      return await this.request('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      })
+    } catch (error) {
+      // Demo mode password reset
+      if (error instanceof Error && error.message === 'DEMO_MODE_BACKEND_UNAVAILABLE') {
+        return {
+          success: true,
+          message: 'Password reset email sent (demo mode)'
+        }
+      }
+      throw error
+    }
   }
 
   // Dashboard methods
