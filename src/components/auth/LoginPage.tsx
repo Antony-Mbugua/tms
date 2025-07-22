@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from '@/lib/utils'
 import ConnectionStatus from '@/components/debug/ConnectionStatus'
+import MockModeBanner from '@/components/debug/MockModeBanner'
 import { ENV_CONFIG } from '@/config/environment'
 import {
   Sparkles,
@@ -125,7 +126,7 @@ const CelebrationAnimation = () => {
               }}
               className="text-6xl mb-4"
             >
-              🚚
+              ��
             </motion.div>
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
               Welcome to
