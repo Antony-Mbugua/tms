@@ -522,9 +522,14 @@ const EnterpriseLoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex relative">
+      {/* Skip to main content */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
       {/* Database Status Notice */}
       <DatabaseStatusNotice />
-      
+
       {/* Theme Customizer */}
       <ThemeCustomizer />
 
