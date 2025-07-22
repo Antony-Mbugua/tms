@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import DatabaseStatusNotice from '@/components/debug/DatabaseStatusNotice'
+import DemoModeBanner from '@/components/debug/DemoModeBanner'
 import confetti from 'canvas-confetti'
 import {
   Lock,
