@@ -510,7 +510,7 @@ const EnterpriseLoginPage: React.FC = () => {
       let errorMessage = err.message || 'Invalid email or password'
 
       // Provide helpful error message for demo mode
-      if (ENV_CONFIG.apiBaseUrl.includes('fly.dev') && errorMessage.includes('Invalid email or password')) {
+      if (ENV_CONFIG?.apiBaseUrl?.includes('fly.dev') && errorMessage.includes('Invalid email or password')) {
         errorMessage = 'Demo login failed. Use: admin@alloverlogistics.com / admin123'
       }
 
