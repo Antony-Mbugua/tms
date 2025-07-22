@@ -1,0 +1,28 @@
+{
+  "name": "aol-tms",
+  "version": "2.0.0",
+  "description": "All Over Logistics Transportation Management System",
+  "scripts": {
+    "setup": "npm run setup:frontend && npm run setup:backend",
+    "setup:frontend": "cd frontend && npm install",
+    "setup:backend": "cd backend && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "db:setup": "cd backend && npm run db:setup",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "test": "concurrently \"cd frontend && npm test\" \"cd backend && npm test\"",
+    "deploy:hostinger": "npm run build && node deployment/deploy-hostinger.js"
+  },
+  "keywords": ["logistics", "transportation", "management", "tms"],
+  "author": "All Over Logistics",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
