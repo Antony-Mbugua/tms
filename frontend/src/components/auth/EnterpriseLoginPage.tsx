@@ -506,7 +506,14 @@ const EnterpriseLoginPage: React.FC = () => {
         localStorage.removeItem('aol_remember_email')
       }
     } catch (err: any) {
-      setError(err.message || 'Invalid email or password')
+      let errorMessage = err.message || 'Invalid email or password'
+
+      // Provide helpful error message for demo mode
+      if (ENV_CONFIG.apiBaseUrl.includes('fly.dev') && errorMessage.includes('Invalid email or password')) {
+        errorMessage = 'Demo login failed. Use: admin@alloverlogistics.com / admin123'
+      }
+
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
