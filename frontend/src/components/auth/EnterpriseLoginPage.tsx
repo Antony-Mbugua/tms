@@ -550,12 +550,13 @@ const EnterpriseLoginPage: React.FC = () => {
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <motion.div
-          className="w-full max-w-md"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
+        <main id="main-content" role="main" aria-label="Login form">
+          <motion.div
+            className="w-full max-w-md"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
           <AnimatePresence mode="wait">
             {!showForgotPassword ? (
               <motion.div
@@ -705,7 +706,8 @@ const EnterpriseLoginPage: React.FC = () => {
               <ForgotPasswordForm onBack={() => setShowForgotPassword(false)} />
             )}
           </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        </main>
       </motion.div>
     </div>
   )
