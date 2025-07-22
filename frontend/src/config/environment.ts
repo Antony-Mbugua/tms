@@ -18,8 +18,17 @@ const getEnvironmentConfig = (): EnvironmentConfig => {
   let apiBaseUrl: string;
 
   if (isLocal) {
-    // Local development (XAMPP or local server)
+    // Local development (Backend server)
     apiBaseUrl = 'http://localhost:5000/api';
+  } else if (window.location.hostname.includes('fly.dev')) {
+    // Fly.dev deployment - backend is at different subdomain
+    if (window.location.hostname.includes('83075a47d0554924a408b244f984bf97')) {
+      // Frontend deployment, backend might be separate
+      apiBaseUrl = 'https://aol-tms-backend.fly.dev/api';
+    } else {
+      // Same domain deployment
+      apiBaseUrl = `${window.location.protocol}//${window.location.hostname}/api`;
+    }
   } else {
     // Production deployment - use same domain with HTTPS
     apiBaseUrl = `${window.location.protocol}//${window.location.hostname}/api`;
