@@ -51,7 +51,22 @@ router.post('/login', async (req, res) => {
     }
 
     // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
+    let isValidPassword = false;
+
+    // Check if we're using mock database in development
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        const { mockPasswordCheck } = await import('../utils/mockDatabase.js');
+        isValidPassword = mockPasswordCheck(password, email.toLowerCase());
+        console.log('🔐 Mock password validation result:', isValidPassword);
+      } catch (mockError) {
+        // Fall back to regular bcrypt if mock fails
+        isValidPassword = await bcrypt.compare(password, user.password_hash);
+      }
+    } else {
+      isValidPassword = await bcrypt.compare(password, user.password_hash);
+    }
+
     if (!isValidPassword) {
       // Log failed login attempt
       await query(
