@@ -263,8 +263,8 @@ const ThemeCustomizer = () => {
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             className="absolute right-0 top-12 w-80 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl"
           >
-            <h3 className="text-white font-semibold mb-4">Customize Theme</h3>
-            
+            <h3 className="text-white font-semibold mb-4">Theme & Accessibility</h3>
+
             {/* Theme Mode */}
             <div className="mb-6">
               <p className="text-white/80 text-sm mb-3">Display Mode</p>
@@ -280,10 +280,11 @@ const ThemeCustomizer = () => {
                     size="sm"
                     onClick={() => setTheme(value as any)}
                     className={`flex-1 text-xs ${
-                      theme === value 
-                        ? 'bg-white text-gray-900' 
+                      theme === value
+                        ? 'bg-white text-gray-900'
                         : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
                     }`}
+                    aria-pressed={theme === value}
                   >
                     <Icon size={12} className="mr-1" />
                     {label}
@@ -293,21 +294,57 @@ const ThemeCustomizer = () => {
             </div>
 
             {/* Color Selection */}
-            <div>
+            <div className="mb-6">
               <p className="text-white/80 text-sm mb-3">Brand Color</p>
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-4 gap-2">
                 {themeColors.map((color) => (
                   <button
                     key={color.name}
                     onClick={() => setThemeColor(color.name as any)}
-                    className={`w-12 h-12 rounded-xl ${color.class} ${
-                      themeColor === color.name 
-                        ? 'ring-4 ring-white ring-offset-2 ring-offset-transparent scale-110' 
+                    className={`w-10 h-10 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white ${
+                      color.name === 'blue' ? 'bg-blue-600' :
+                      color.name === 'slate' ? 'bg-slate-600' :
+                      color.name === 'emerald' ? 'bg-emerald-600' :
+                      color.name === 'orange' ? 'bg-orange-600' :
+                      color.name === 'purple' ? 'bg-purple-600' :
+                      color.name === 'red' ? 'bg-red-600' :
+                      color.name === 'teal' ? 'bg-teal-600' :
+                      color.name === 'indigo' ? 'bg-indigo-600' : 'bg-blue-600'
+                    } ${
+                      themeColor === color.name
+                        ? 'ring-2 ring-white ring-offset-2 ring-offset-transparent scale-110'
                         : 'hover:scale-105 shadow-lg'
-                    } transition-all duration-200`}
+                    }`}
                     title={color.label}
+                    aria-label={`Set theme to ${color.label}`}
+                    aria-pressed={themeColor === color.name}
                   />
                 ))}
+              </div>
+            </div>
+
+            {/* Accessibility Controls */}
+            <div>
+              <p className="text-white/80 text-sm mb-3">Accessibility</p>
+              <div className="space-y-3">
+                <label className="flex items-center justify-between cursor-pointer">
+                  <span className="text-white/90 text-sm">High Contrast</span>
+                  <input
+                    type="checkbox"
+                    checked={highContrast}
+                    onChange={(e) => setHighContrast(e.target.checked)}
+                    className="w-4 h-4 rounded border-white/20 bg-white/10 text-white focus:ring-white focus:ring-2"
+                  />
+                </label>
+                <label className="flex items-center justify-between cursor-pointer">
+                  <span className="text-white/90 text-sm">Reduce Motion</span>
+                  <input
+                    type="checkbox"
+                    checked={reducedMotion}
+                    onChange={(e) => setReducedMotion(e.target.checked)}
+                    className="w-4 h-4 rounded border-white/20 bg-white/10 text-white focus:ring-white focus:ring-2"
+                  />
+                </label>
               </div>
             </div>
           </motion.div>
