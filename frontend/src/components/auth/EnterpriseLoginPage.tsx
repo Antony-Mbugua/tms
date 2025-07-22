@@ -9,6 +9,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 import DatabaseStatusNotice from '@/components/debug/DatabaseStatusNotice'
 import DemoModeBanner from '@/components/debug/DemoModeBanner'
 import { ENV_CONFIG } from '@/config/environment'
+import { isDemoMode } from '@/utils/isDemoMode'
 import confetti from 'canvas-confetti'
 import {
   Lock,
