@@ -5,7 +5,7 @@ const DemoModeBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   // Only show on fly.dev deployment
-  if (!ENV_CONFIG.apiBaseUrl.includes('fly.dev') || !isVisible) {
+  if (!ENV_CONFIG?.apiBaseUrl?.includes('fly.dev') || !isVisible) {
     return null;
   }
 
