@@ -116,16 +116,30 @@ class ApiService {
 
   // Authentication methods
   async login(credentials: LoginCredentials): Promise<ApiResponse> {
-    const response = await this.request('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    })
+    // Check if backend is available
+    const isBackendAvailable = await this.checkBackendAvailability()
 
-    if (response.token) {
-      this.setToken(response.token)
+    if (!isBackendAvailable) {
+      console.log('🔄 Using mock API for login')
+      return await mockApiService.login(credentials)
     }
 
-    return response
+    try {
+      const response = await this.request('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+      })
+
+      if (response.token) {
+        this.setToken(response.token)
+      }
+
+      return response
+    } catch (error) {
+      console.log('🔄 Backend failed, falling back to mock API')
+      backendAvailable = false
+      return await mockApiService.login(credentials)
+    }
   }
 
   async logout(): Promise<ApiResponse> {
