@@ -606,6 +606,8 @@ const EnterpriseLoginPage: React.FC = () => {
                           onChange={(e) => setEmail(e.target.value)}
                           className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                           autoComplete="email"
+                          aria-describedby="email-description"
+                          aria-required="true"
                         />
                       </motion.div>
 
