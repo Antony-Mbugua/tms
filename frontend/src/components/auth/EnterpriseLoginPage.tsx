@@ -528,6 +528,9 @@ const EnterpriseLoginPage: React.FC = () => {
         Skip to main content
       </a>
 
+      {/* Demo Mode Banner */}
+      <DemoModeBanner />
+
       {/* Database Status Notice */}
       <DatabaseStatusNotice />
 
