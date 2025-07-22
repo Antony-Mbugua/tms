@@ -15,7 +15,8 @@
     "db:update": "cd server && node scripts/update-database.js",
     "dev:full": "concurrently \"npm run server\" \"npm run dev\"",
     "setup": "npm install && cd server && npm install",
-    "validate": "cd server && npm run validate"
+    "validate": "cd server && npm run validate",
+    "deploy:build": "npm run setup && npm run build && cd server && npm run db:setup"
   },
   "dependencies": {
     "react": "^18.2.0",
