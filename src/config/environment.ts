@@ -7,7 +7,7 @@ interface EnvironmentConfig {
 
 const getEnvironmentConfig = (): EnvironmentConfig => {
   // Check if we're running locally (common local development patterns)
-  const isLocal = 
+  const isLocal =
     window.location.hostname === 'localhost' ||
     window.location.hostname === '127.0.0.1' ||
     window.location.hostname.includes('192.168.') ||
@@ -16,11 +16,14 @@ const getEnvironmentConfig = (): EnvironmentConfig => {
 
   // Determine API base URL based on environment
   let apiBaseUrl: string;
-  
+
   if (isLocal) {
     // Local development (XAMPP or local server)
     apiBaseUrl = 'http://localhost:5000/api';
-  } else if (window.location.hostname.includes('hostinger') || 
+  } else if (window.location.hostname.includes('fly.dev')) {
+    // Fly.dev deployment - use same domain but different port or path
+    apiBaseUrl = `${window.location.protocol}//${window.location.hostname}/api`;
+  } else if (window.location.hostname.includes('hostinger') ||
              window.location.hostname.includes('your-domain.com')) {
     // Hostinger cloud or custom domain
     apiBaseUrl = `https://${window.location.hostname}/api`;
