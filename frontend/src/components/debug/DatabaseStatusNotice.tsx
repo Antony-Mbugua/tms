@@ -65,9 +65,9 @@ const DatabaseStatusNotice: React.FC = () => {
         <div className="flex items-center gap-2">
           <span>⚠️</span>
           <span>
-            <strong>{ENV_CONFIG.apiBaseUrl.includes('fly.dev') ? 'Demo Mode:' : 'Development Mode:'}</strong>
-            {' '}{ENV_CONFIG.apiBaseUrl.includes('fly.dev') ? 'Backend not deployed. Using demo data.' : 'MySQL database not connected. Using mock data.'}
-            {' '}{!ENV_CONFIG.apiBaseUrl.includes('fly.dev') && 'To connect to real database: Start XAMPP → MySQL service.'}
+            <strong>{ENV_CONFIG?.apiBaseUrl?.includes('fly.dev') ? 'Demo Mode:' : 'Development Mode:'}</strong>
+            {' '}{ENV_CONFIG?.apiBaseUrl?.includes('fly.dev') ? 'Backend not deployed. Using demo data.' : 'MySQL database not connected. Using mock data.'}
+            {' '}{!ENV_CONFIG?.apiBaseUrl?.includes('fly.dev') && 'To connect to real database: Start XAMPP → MySQL service.'}
             {' '}Login: <code className="bg-amber-600 px-1 rounded">admin@alloverlogistics.com</code> /
             <code className="bg-amber-600 px-1 rounded">admin123</code>
           </span>
