@@ -529,8 +529,10 @@ const EnterpriseLoginPage: React.FC = () => {
     }
   }, [])
 
+  const isDemoMode = ENV_CONFIG?.apiBaseUrl?.includes('fly.dev') || false;
+
   return (
-    <div className="min-h-screen flex relative" style={{ paddingTop: ENV_CONFIG.apiBaseUrl.includes('fly.dev') ? '80px' : '0' }}>
+    <div className="min-h-screen flex relative" style={{ paddingTop: isDemoMode ? '80px' : '0' }}>
       {/* Skip to main content */}
       <a href="#main-content" className="skip-link">
         Skip to main content
