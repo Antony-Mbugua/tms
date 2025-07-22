@@ -517,10 +517,10 @@ const EnterpriseLoginPage: React.FC = () => {
                         </div>
                       </div>
                       <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                        Enterprise Portal
+                        AOL TMS
                       </CardTitle>
                       <CardDescription className="text-lg mt-2 text-gray-600">
-                        Secure access to your TMS dashboard
+                        Transportation Management System
                       </CardDescription>
                     </motion.div>
                   </CardHeader>
