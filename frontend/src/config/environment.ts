@@ -60,5 +60,18 @@ const getEnvironmentConfig = (): EnvironmentConfig => {
   };
 };
 
-export const ENV_CONFIG = getEnvironmentConfig();
+let ENV_CONFIG: EnvironmentConfig;
+
+try {
+  ENV_CONFIG = getEnvironmentConfig();
+} catch (error) {
+  console.warn('Failed to get environment config, using fallback:', error);
+  ENV_CONFIG = {
+    apiBaseUrl: 'http://localhost:5000/api',
+    environment: 'development',
+    isLocal: true
+  };
+}
+
+export { ENV_CONFIG };
 export default ENV_CONFIG;
