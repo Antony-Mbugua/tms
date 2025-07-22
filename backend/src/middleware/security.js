@@ -77,8 +77,9 @@ export const authRateLimit = rateLimit({
 export const progressiveDelay = slowDown({
   windowMs: 15 * 60 * 1000, // 15 minutes
   delayAfter: 50, // allow 50 requests per 15 minutes at full speed
-  delayMs: 500, // slow down subsequent requests by 500ms per request
+  delayMs: () => 500, // slow down subsequent requests by 500ms per request
   maxDelayMs: 20000, // maximum delay of 20 seconds
+  validate: { delayMs: false }, // Disable warning
 });
 
 // Brute force protection for login attempts
