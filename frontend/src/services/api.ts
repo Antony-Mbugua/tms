@@ -48,7 +48,15 @@ class ApiService {
     }
 
     try {
-      const response = await fetch(url, config)
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+      const response = await fetch(url, {
+        ...config,
+        signal: controller.signal
+      })
+
+      clearTimeout(timeoutId)
       const data = await response.json()
 
       if (!response.ok) {
@@ -58,6 +66,12 @@ class ApiService {
       return data
     } catch (error) {
       console.error('API Request failed:', error)
+
+      // For fly.dev demo, throw a specific error to trigger demo mode
+      if (API_BASE_URL.includes('fly.dev') || (error instanceof Error && (error.message.includes('Failed to fetch') || error.name === 'AbortError'))) {
+        throw new Error('DEMO_MODE_BACKEND_UNAVAILABLE')
+      }
+
       throw error
     }
   }
