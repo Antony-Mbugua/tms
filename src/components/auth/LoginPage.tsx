@@ -411,9 +411,6 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex relative">
-      {/* Mock Mode Banner */}
-      <MockModeBanner />
-
       {/* Theme Customizer */}
       <ThemeCustomizer />
 
