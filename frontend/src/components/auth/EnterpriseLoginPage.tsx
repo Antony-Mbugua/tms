@@ -40,42 +40,52 @@ const themeColors = [
 
 const WelcomeAnimation = () => {
   const { themeColor } = useTheme()
+  const [showWelcome, setShowWelcome] = useState(false)
 
   useEffect(() => {
+    const colors = {
+      blue: ['#3b82f6', '#1d4ed8', '#1e40af'],
+      slate: ['#475569', '#334155', '#1e293b'],
+      emerald: ['#10b981', '#059669', '#047857'],
+      orange: ['#f97316', '#ea580c', '#c2410c'],
+      purple: ['#8b5cf6', '#7c3aed', '#6d28d9'],
+      red: ['#ef4444', '#dc2626', '#b91c1c'],
+      teal: ['#14b8a6', '#0d9488', '#0f766e'],
+      indigo: ['#6366f1', '#4f46e5', '#4338ca']
+    }
+
+    const themeColors = colors[themeColor] || colors.blue
+
     const runConfetti = () => {
-      const colors = {
-        blue: ['#3b82f6', '#1d4ed8', '#1e40af'],
-        slate: ['#475569', '#334155', '#1e293b'],
-        emerald: ['#10b981', '#059669', '#047857'],
-        orange: ['#f97316', '#ea580c', '#c2410c'],
-        purple: ['#8b5cf6', '#7c3aed', '#6d28d9'],
-        red: ['#ef4444', '#dc2626', '#b91c1c'],
-        teal: ['#14b8a6', '#0d9488', '#0f766e'],
-        indigo: ['#6366f1', '#4f46e5', '#4338ca']
-      }
-      
-      const themeColors = colors[themeColor] || colors.blue
-      
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 120,
+        spread: 80,
         origin: { y: 0.6 },
-        colors: themeColors
+        colors: themeColors,
+        shapes: ['square', 'circle'],
+        scalar: 1.2
       })
     }
 
-    // Initial confetti
-    const timer1 = setTimeout(runConfetti, 500)
-    const timer2 = setTimeout(runConfetti, 2000)
-    const timer3 = setTimeout(runConfetti, 4000)
-    
-    // Periodic confetti
-    const interval = setInterval(runConfetti, 8000)
+    // Initial confetti burst with welcome message
+    const timer1 = setTimeout(() => {
+      runConfetti()
+      setShowWelcome(true)
+    }, 1000)
+
+    // Periodic gentle confetti
+    const interval = setInterval(() => {
+      confetti({
+        particleCount: 50,
+        spread: 50,
+        origin: { y: 0.7 },
+        colors: themeColors,
+        scalar: 0.8
+      })
+    }, 12000)
 
     return () => {
       clearTimeout(timer1)
-      clearTimeout(timer2)
-      clearTimeout(timer3)
       clearInterval(interval)
     }
   }, [themeColor])
