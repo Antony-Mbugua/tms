@@ -6,6 +6,15 @@ interface EnvironmentConfig {
 }
 
 const getEnvironmentConfig = (): EnvironmentConfig => {
+  // Safety check for window object (SSR compatibility)
+  if (typeof window === 'undefined') {
+    return {
+      apiBaseUrl: 'http://localhost:5000/api',
+      environment: 'development',
+      isLocal: true
+    };
+  }
+
   // Check if we're running locally (common local development patterns)
   const isLocal =
     window.location.hostname === 'localhost' ||
