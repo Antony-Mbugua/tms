@@ -412,9 +412,6 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex relative">
-      {/* Truck Icon Test - Remove after verification */}
-      <TruckIconTest />
-
       {/* Theme Customizer */}
       <ThemeCustomizer />
 
