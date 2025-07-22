@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
         console.log('🔐 Mock password validation result:', isValidPassword);
       } catch (mockError) {
         // Fall back to regular bcrypt if mock fails
-        isValidPassword = await bcrypt.compare(password, user.password_hash);
+        isValidPassword = await bcrypt.compare(password, user.password);
       }
     } else {
       isValidPassword = await bcrypt.compare(password, user.password_hash);
