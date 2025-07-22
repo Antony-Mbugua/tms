@@ -522,7 +522,7 @@ const EnterpriseLoginPage: React.FC = () => {
   }, [])
 
   return (
-    <div className="min-h-screen flex relative">
+    <div className="min-h-screen flex relative" style={{ paddingTop: ENV_CONFIG.apiBaseUrl.includes('fly.dev') ? '80px' : '0' }}>
       {/* Skip to main content */}
       <a href="#main-content" className="skip-link">
         Skip to main content
