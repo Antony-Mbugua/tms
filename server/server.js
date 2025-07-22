@@ -102,6 +102,7 @@ app.use('/uploads', express.static(join(__dirname, 'uploads')));
 // Health check endpoint with database status
 app.get('/health', async (req, res) => {
   let dbStatus = 'unknown';
+  let usingMockData = false;
 
   try {
     // Import query function
@@ -109,8 +110,12 @@ app.get('/health', async (req, res) => {
     await query('SELECT 1');
     dbStatus = 'connected';
   } catch (error) {
-    dbStatus = 'disconnected';
-    console.error('Database health check failed:', error.message);
+    if (error.message && error.message.includes('mock database')) {
+      dbStatus = 'mock';
+      usingMockData = true;
+    } else {
+      dbStatus = 'disconnected';
+    }
   }
 
   res.json({
@@ -118,6 +123,7 @@ app.get('/health', async (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
     database: dbStatus,
+    usingMockData,
     version: '1.0.0'
   });
 });
