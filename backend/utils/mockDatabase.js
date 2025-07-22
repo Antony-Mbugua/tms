@@ -5,7 +5,7 @@ const mockUsers = [
   {
     id: 1,
     email: 'admin@alloverlogistics.com',
-    password_hash: '$2a$12$4Q8QfEz.0Q4Q1Q2Q3Q4Q5uOQ6Q7Q8Q9Q0Q1Q2Q3Q4Q5Q6Q7Q8Q9Q0Q', // This will be checked differently for mock
+    password: '$2a$12$4Q8QfEz.0Q4Q1Q2Q3Q4Q5uOQ6Q7Q8Q9Q0Q1Q2Q3Q4Q5Q6Q7Q8Q9Q0Q', // This will be checked differently for mock
     first_name: 'Admin',
     last_name: 'User',
     phone: '+1234567890',
