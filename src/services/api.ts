@@ -32,11 +32,11 @@ class ApiService {
   }
 
   private async request<T = any>(
-    endpoint: string, 
+    endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     const url = `${API_BASE_URL}${endpoint}`
-    
+
     const config: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
@@ -48,6 +48,13 @@ class ApiService {
 
     try {
       const response = await fetch(url, config)
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error(`Server returned non-JSON response (${response.status}). Backend may not be deployed.`)
+      }
+
       const data = await response.json()
 
       if (!response.ok) {
@@ -57,6 +64,17 @@ class ApiService {
       return data
     } catch (error) {
       console.error('API Request failed:', error)
+
+      // Provide more specific error messages
+      if (error instanceof Error) {
+        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          throw new Error(`Cannot connect to backend server at ${API_BASE_URL}. Please ensure the backend is running.`)
+        }
+        if (error.message.includes('non-JSON response')) {
+          throw new Error(`Backend server not found at ${API_BASE_URL}. Please check deployment.`)
+        }
+      }
+
       throw error
     }
   }
