@@ -12,6 +12,7 @@ interface ApiResponse<T = any> {
   error?: string
   token?: string
   user?: any
+  message?: string
 }
 
 class ApiService {
