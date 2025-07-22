@@ -143,23 +143,48 @@ class ApiService {
   }
 
   async logout(): Promise<ApiResponse> {
-    const response = await this.request('/auth/logout', {
-      method: 'POST',
-    })
+    if (!backendAvailable) {
+      this.setToken(null)
+      return await mockApiService.logout()
+    }
 
-    this.setToken(null)
-    return response
+    try {
+      const response = await this.request('/auth/logout', {
+        method: 'POST',
+      })
+      this.setToken(null)
+      return response
+    } catch (error) {
+      this.setToken(null)
+      return await mockApiService.logout()
+    }
   }
 
   async verifyToken(): Promise<ApiResponse> {
-    return this.request('/auth/verify')
+    if (!backendAvailable) {
+      return await mockApiService.verifyToken()
+    }
+
+    try {
+      return await this.request('/auth/verify')
+    } catch (error) {
+      return await mockApiService.verifyToken()
+    }
   }
 
   async forgotPassword(email: string): Promise<ApiResponse> {
-    return this.request('/auth/forgot-password', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-    })
+    if (!backendAvailable) {
+      return await mockApiService.forgotPassword(email)
+    }
+
+    try {
+      return await this.request('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      })
+    } catch (error) {
+      return await mockApiService.forgotPassword(email)
+    }
   }
 
   // Dashboard methods
