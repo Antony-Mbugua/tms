@@ -47,9 +47,11 @@ export const query = async (sql, params = []) => {
   } catch (error) {
     console.error('Database query error:', error);
 
-    // In development, provide helpful error message
+    // In development, fall back to mock database
     if (process.env.NODE_ENV === 'development' && error.code === 'ECONNREFUSED') {
-      throw new Error('Database not available. Please start XAMPP MySQL service.');
+      console.log('🔄 Falling back to mock database for development');
+      const { mockQuery } = await import('../utils/mockDatabase.js');
+      return await mockQuery(sql, params);
     }
 
     throw error;
