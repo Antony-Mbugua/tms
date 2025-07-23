@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
 // Import existing utilities
-import { setupLogger } from './utils/logger.js';
+import logger from './utils/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // Import existing route handlers
