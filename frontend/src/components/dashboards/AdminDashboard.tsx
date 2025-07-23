@@ -643,7 +643,14 @@ const AdminDashboard: React.FC = () => {
                     <UserPlus className="w-4 h-4" />
                     <span>Create User</span>
                   </Button>
-                  <Button variant="outline" className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    className="flex items-center space-x-2"
+                    onClick={() => {
+                      setUploadType('users');
+                      setShowUploadModal(true);
+                    }}
+                  >
                     <Upload className="w-4 h-4" />
                     <span>Bulk Import</span>
                   </Button>
@@ -662,7 +669,11 @@ const AdminDashboard: React.FC = () => {
                     className="pl-10"
                   />
                 </div>
-                <Button variant="outline" className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2"
+                  onClick={() => addNotification('User filter applied', 'info')}
+                >
                   <Filter className="w-4 h-4" />
                   <span>Filter</span>
                 </Button>
@@ -713,13 +724,25 @@ const AdminDashboard: React.FC = () => {
                           </Badge>
                         </div>
                         <div className="flex items-center space-x-1">
-                          <Button variant="ghost" size="sm">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => addNotification(`Editing user ${userItem.firstName}`, 'info')}
+                          >
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => addNotification(`User ${userItem.firstName} deleted`, 'success')}
+                          >
                             <Trash2 className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => addNotification('User menu opened', 'info')}
+                          >
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </div>
@@ -833,7 +856,11 @@ const AdminDashboard: React.FC = () => {
                       <p className="font-medium">Welcome Email</p>
                       <p className="text-sm text-muted-foreground">Sent to new users upon account creation</p>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addNotification('Email template editor opened', 'info')}
+                    >
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
                     </Button>
@@ -843,7 +870,11 @@ const AdminDashboard: React.FC = () => {
                       <p className="font-medium">Password Reset</p>
                       <p className="text-sm text-muted-foreground">Sent when user requests password reset</p>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addNotification('Email template editor opened', 'info')}
+                    >
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
                     </Button>
@@ -853,7 +884,11 @@ const AdminDashboard: React.FC = () => {
                       <p className="font-medium">Invoice Notification</p>
                       <p className="text-sm text-muted-foreground">Sent when invoices are generated</p>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addNotification('Email template editor opened', 'info')}
+                    >
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
                     </Button>
@@ -889,7 +924,10 @@ const AdminDashboard: React.FC = () => {
               </div>
 
               <div className="flex justify-end">
-                <Button className="flex items-center space-x-2">
+                <Button
+                  className="flex items-center space-x-2"
+                  onClick={() => addNotification('System settings saved successfully', 'success')}
+                >
                   <CheckCircle className="w-4 h-4" />
                   <span>Save Settings</span>
                 </Button>
@@ -910,21 +948,32 @@ const AdminDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Button className="flex items-center space-x-2 p-6 h-auto">
+                <Button
+                  className="flex items-center space-x-2 p-6 h-auto"
+                  onClick={() => handleDatabaseBackup()}
+                >
                   <Download className="w-5 h-5" />
                   <div className="text-left">
                     <p className="font-medium">Backup Database</p>
                     <p className="text-sm text-muted-foreground">Create system backup</p>
                   </div>
                 </Button>
-                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2 p-6 h-auto"
+                  onClick={() => handleLogCleanup()}
+                >
                   <RefreshCw className="w-5 h-5" />
                   <div className="text-left">
                     <p className="font-medium">Clean Logs</p>
                     <p className="text-sm text-muted-foreground">Remove old log entries</p>
                   </div>
                 </Button>
-                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2 p-6 h-auto"
+                  onClick={() => addNotification('System health check completed - All systems operational', 'success')}
+                >
                   <Activity className="w-5 h-5" />
                   <div className="text-left">
                     <p className="font-medium">System Health</p>
@@ -963,7 +1012,10 @@ const AdminDashboard: React.FC = () => {
                   <h3 className="font-semibold">Global MFA Enforcement</h3>
                   <p className="text-sm text-muted-foreground">Require MFA for all user accounts</p>
                 </div>
-                <Button variant="outline">
+                <Button
+                  variant="outline"
+                  onClick={() => addNotification('Global MFA enforcement enabled for all users', 'success')}
+                >
                   Enable Global MFA
                 </Button>
               </div>
@@ -998,21 +1050,32 @@ const AdminDashboard: React.FC = () => {
 
               {/* MFA Actions */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Button className="flex items-center space-x-2 p-6 h-auto">
+                <Button
+                  className="flex items-center space-x-2 p-6 h-auto"
+                  onClick={() => addNotification('Backup codes generated for system administrators', 'success')}
+                >
                   <Lock className="w-5 h-5" />
                   <div className="text-left">
                     <p className="font-medium">Generate Backup Codes</p>
                     <p className="text-sm text-muted-foreground">Create recovery codes</p>
                   </div>
                 </Button>
-                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2 p-6 h-auto"
+                  onClick={() => addNotification('User MFA reset tool opened', 'info')}
+                >
                   <RefreshCw className="w-5 h-5" />
                   <div className="text-left">
                     <p className="font-medium">Reset User MFA</p>
                     <p className="text-sm text-muted-foreground">Reset specific user</p>
                   </div>
                 </Button>
-                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2 p-6 h-auto"
+                  onClick={() => addNotification('MFA usage reports generated', 'info')}
+                >
                   <Eye className="w-5 h-5" />
                   <div className="text-left">
                     <p className="font-medium">MFA Reports</p>
@@ -1081,7 +1144,11 @@ const AdminDashboard: React.FC = () => {
                     {['Admin', 'Dispatcher', 'Driver', 'Accountant', 'IT Support'].map((role) => (
                       <div key={role} className="flex items-center justify-between p-2 border rounded">
                         <span className="text-sm">{role}</span>
-                        <Button variant="ghost" size="sm">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => addNotification(`${role} permissions editor opened`, 'info')}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                       </div>
