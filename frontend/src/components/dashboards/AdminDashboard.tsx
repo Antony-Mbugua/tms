@@ -37,6 +37,7 @@ const AdminDashboard: React.FC = () => {
   const [showTrainingModal, setShowTrainingModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [uploadType, setUploadType] = useState('');
+  const [showTrainingUpload, setShowTrainingUpload] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
   const kpis = [
