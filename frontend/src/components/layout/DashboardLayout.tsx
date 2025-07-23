@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   Truck, Users, FileText, DollarSign, Settings, Shield,
   Book, MessageCircle, BarChart3, LogOut, Menu, X,
   Bell, User, ChevronDown, Home, Database, Receipt,
@@ -11,6 +11,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
+import ThemeToggle from '../ui/theme-toggle';
+import UserProfileSettings from '../settings/UserProfileSettings';
 
 const DashboardLayout: React.FC = () => {
   const { user, logout, hasRole, hasPermission } = useAuth();
@@ -18,6 +20,13 @@ const DashboardLayout: React.FC = () => {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showProfileSettings, setShowProfileSettings] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: 'New load assignment available', type: 'info', time: '2 min ago' },
+    { id: 2, message: 'Truck AOL003 maintenance due', type: 'warning', time: '1 hour ago' },
+    { id: 3, message: 'Invoice payment received', type: 'success', time: '3 hours ago' }
+  ]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const handleLogout = async () => {
     await logout();
