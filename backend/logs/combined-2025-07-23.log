@@ -189,3 +189,31 @@ Meta: {
   "hostname": "localhost",
   "pid": 6619
 }
+2025-07-23 04:34:59.842 [HTTP]: ::ffff:127.0.0.1 - - [23/Jul/2025:04:34:59 +0000] "GET /api/admin/system-health HTTP/1.1" 401 56 "-" "curl/7.88.1" 5.160 ms
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6564
+}
+2025-07-23 04:34:59.855 [ERROR]: Failed to log security event: connect ECONNREFUSED 127.0.0.1:3306
+Stack: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at PromisePool.execute (/app/code/node_modules/mysql2/lib/promise/pool.js:54:22)
+    at logSecurityEvent (file:///app/code/backend/src/middleware/security.js:640:14)
+    at ServerResponse.<anonymous> (file:///app/code/backend/server.js:208:7)
+    at ServerResponse.emit (node:events:530:35)
+    at onFinish (node:_http_outgoing:1081:10)
+    at callback (node:internal/streams/writable:766:21)
+    at afterWrite (node:internal/streams/writable:710:5)
+    at afterWriteTick (node:internal/streams/writable:696:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6564,
+  "code": "ECONNREFUSED",
+  "errno": -111
+}

@@ -19,3 +19,5 @@
 2025-07-23 04:34:55.333 Initializing Socket.IO server...
 2025-07-23 04:34:55.334 Socket.IO server initialized successfully
 2025-07-23 04:34:55.334 Running in development mode - database connection optional
+2025-07-23 04:34:59.841 ::ffff:127.0.0.1 - - [23/Jul/2025:04:34:59 +0000] "GET /api/admin/system-health HTTP/1.1" 401 56 "-" "curl/7.88.1" 5.160 ms
+2025-07-23 04:34:59.855 Failed to log security event: connect ECONNREFUSED 127.0.0.1:3306
