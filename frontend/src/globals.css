@@ -60,6 +60,25 @@
 }
 
 @layer components {
+  /* Input and form improvements */
+  .input-field {
+    @apply bg-input border border-border text-foreground placeholder:text-muted-foreground;
+    @apply focus:border-primary focus:ring-1 focus:ring-primary;
+  }
+
+  .select-field {
+    @apply bg-input border border-border text-foreground;
+    @apply focus:border-primary focus:ring-1 focus:ring-primary;
+  }
+
+  .dropdown-menu {
+    @apply bg-popover border border-border text-popover-foreground shadow-lg;
+  }
+
+  .dropdown-item {
+    @apply px-3 py-2 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground;
+  }
+
   /* Custom scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
