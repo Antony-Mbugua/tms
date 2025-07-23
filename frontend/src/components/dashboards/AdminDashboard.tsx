@@ -13,7 +13,8 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
-import { useAuth } from '../../contexts/AuthContext\';\nimport TrainingContentUpload from \'../training/TrainingContentUpload';
+import { useAuth } from '../../contexts/AuthContext';
+import TrainingContentUpload from '../training/TrainingContentUpload';
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
