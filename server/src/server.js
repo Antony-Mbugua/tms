@@ -33,9 +33,6 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 
-// Setup logger
-const logger = setupLogger();
-
 // Trust proxy for accurate IP addresses behind reverse proxy
 app.set('trust proxy', 1);
 
