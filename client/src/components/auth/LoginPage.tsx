@@ -1,0 +1,742 @@
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import confetti from 'canvas-confetti'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useAuth } from '@/contexts/AuthContext'
+import { useTheme } from '@/contexts/ThemeContext'
+import {
+  Truck,
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  AlertCircle,
+  Palette,
+  Sun,
+  Moon,
+  Monitor,
+  Globe,
+  Shield,
+  Users,
+  Package,
+  Accessibility,
+  Volume2,
+  VolumeX
+} from 'lucide-react'
+
+// Enhanced theme colors with original styling
+const themeColors = [
+  { name: 'blue', label: 'AOL Blue', class: 'from-blue-600 to-blue-800', accent: 'bg-blue-600' },
+  { name: 'slate', label: 'Professional Slate', class: 'from-slate-600 to-slate-800', accent: 'bg-slate-600' },
+  { name: 'emerald', label: 'Success Green', class: 'from-emerald-600 to-emerald-800', accent: 'bg-emerald-600' },
+  { name: 'orange', label: 'Energy Orange', class: 'from-orange-600 to-orange-800', accent: 'bg-orange-600' },
+  { name: 'purple', label: 'Premium Purple', class: 'from-purple-600 to-purple-800', accent: 'bg-purple-600' },
+  { name: 'red', label: 'Alert Red', class: 'from-red-600 to-red-800', accent: 'bg-red-600' },
+  { name: 'teal', label: 'Professional Teal', class: 'from-teal-600 to-teal-800', accent: 'bg-teal-600' },
+  { name: 'indigo', label: 'Corporate Indigo', class: 'from-indigo-600 to-indigo-800', accent: 'bg-indigo-600' }
+] as const
+
+// Welcome animation with original theme styling and confetti
+const WelcomeSection = () => {
+  const { themeColor } = useTheme()
+  const [showWelcome, setShowWelcome] = useState(false)
+
+  const getThemeColors = () => {
+    const theme = themeColors.find(t => t.name === themeColor) || themeColors[0]
+    return {
+      gradient: theme.class,
+      confettiColors: {
+        blue: ['#3b82f6', '#1d4ed8', '#1e40af'],
+        slate: ['#475569', '#334155', '#1e293b'],
+        emerald: ['#10b981', '#059669', '#047857'],
+        orange: ['#f97316', '#ea580c', '#c2410c'],
+        purple: ['#8b5cf6', '#7c3aed', '#6d28d9'],
+        red: ['#ef4444', '#dc2626', '#b91c1c'],
+        teal: ['#14b8a6', '#0d9488', '#0f766e'],
+        indigo: ['#6366f1', '#4f46e5', '#4338ca']
+      }[themeColor] || ['#3b82f6', '#1d4ed8', '#1e40af']
+    }
+  }
+
+  useEffect(() => {
+    const { confettiColors } = getThemeColors()
+    
+    // Initial confetti burst with welcome message
+    const timer1 = setTimeout(() => {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: confettiColors,
+        shapes: ['square', 'circle'],
+        scalar: 1.2
+      })
+      setShowWelcome(true)
+    }, 1000)
+    
+    // Periodic gentle confetti
+    const interval = setInterval(() => {
+      confetti({
+        particleCount: 60,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: confettiColors,
+        scalar: 0.8
+      })
+    }, 15000)
+
+    return () => {
+      clearTimeout(timer1)
+      clearInterval(interval)
+    }
+  }, [themeColor])
+
+  const { gradient } = getThemeColors()
+
+  return (
+    <div className={`relative h-full w-full bg-gradient-to-br ${gradient} overflow-hidden`}>
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className={"absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml,%3csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\" fill=\"none\" stroke=\"%23ffffff\"%3e%3cpath d=\"m0 2 30 0\" stroke-width=\"1\"/%3e%3cpath d=\"m0 16 30 0\" stroke-width=\"1\"/%3e%3cpath d=\"m0 30 30 0\" stroke-width=\"1\"/%3e%3cpath d=\"m2 0 0 30\" stroke-width=\"1\"/%3e%3cpath d=\"m16 0 0 30\" stroke-width=\"1\"/%3e%3cpath d=\"m30 0 0 30\" stroke-width=\"1\"/%3e%3c/svg%3e')]"} />
+      </div>
+
+      {/* Content */}
+      <div className="relative flex items-center justify-center h-full px-8">
+        <div className="text-center text-white max-w-xl">
+          {/* Truck Icon */}
+          <motion.div
+            initial={{ scale: 0, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 300,
+              damping: 20,
+              delay: 0.3 
+            }}
+            className="flex items-center justify-center mb-12"
+          >
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-8 shadow-2xl border border-white/30">
+              <Truck size={80} className="text-white" />
+            </div>
+          </motion.div>
+
+          {/* Welcome Message */}
+          <AnimatePresence>
+            {showWelcome && (
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                  delay: 0.2 
+                }}
+                className="mb-8"
+              >
+                <motion.h1 
+                  className="text-4xl lg:text-6xl font-bold mb-4 leading-tight"
+                  animate={{ 
+                    scale: [1, 1.02, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut"
+                  }}
+                >
+                  Welcome to
+                </motion.h1>
+                
+                <h2 className="text-3xl lg:text-5xl font-black mb-3 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+                  All Over Logistics
+                </h2>
+                <div className="text-lg lg:text-xl font-medium text-white/90">
+                  Transportation Management System
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
+          {/* Feature Icons */}
+          <motion.div 
+            className="flex justify-center space-x-12 mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+          >
+            {[
+              { icon: Globe, label: 'Global Reach' },
+              { icon: Shield, label: 'Secure Platform' },
+              { icon: Users, label: 'Team Collaboration' },
+              { icon: Package, label: 'Smart Logistics' }
+            ].map(({ icon: Icon, label }, index) => (
+              <motion.div
+                key={label}
+                animate={{ 
+                  y: [0, -15, 0],
+                  rotateY: [0, 10, -10, 0]
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity,
+                  delay: index * 0.5,
+                  ease: "easeInOut"
+                }}
+                className="flex flex-col items-center space-y-3"
+              >
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/30">
+                  <Icon size={28} className="text-white" />
+                </div>
+                <span className="text-sm text-white/80 font-medium">{label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Enhanced Theme Customizer with Fixed Visibility
+const ThemeCustomizer = () => {
+  const { theme, setTheme, themeColor, setThemeColor } = useTheme()
+  const [showPanel, setShowPanel] = useState(false)
+  const [highContrast, setHighContrast] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
+
+  // Apply accessibility settings
+  useEffect(() => {
+    if (highContrast) {
+      document.documentElement.classList.add('high-contrast')
+    } else {
+      document.documentElement.classList.remove('high-contrast')
+    }
+    
+    if (reducedMotion) {
+      document.documentElement.classList.add('reduce-motion')
+    } else {
+      document.documentElement.classList.remove('reduce-motion')
+    }
+  }, [highContrast, reducedMotion])
+
+  return (
+    <div className="fixed top-6 right-6 z-50">
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowPanel(!showPanel)}
+          className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 shadow-lg"
+          aria-label="Open theme and accessibility settings"
+        >
+          <Palette size={16} />
+        </Button>
+      </motion.div>
+
+      {/* Enhanced Panel with Better Visibility */}
+      <AnimatePresence>
+        {showPanel && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            className="absolute right-0 top-12 w-96 bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-2xl z-50"
+            style={{ 
+              backgroundColor: highContrast ? '#ffffff' : undefined,
+              border: highContrast ? '2px solid #000000' : undefined
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-gray-900 dark:text-gray-100 font-semibold text-lg">
+                <Palette size={20} className="inline mr-2" />
+                Customization
+              </h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowPanel(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                ✕
+              </Button>
+            </div>
+            
+            {/* Theme Mode */}
+            <div className="mb-6">
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 font-medium flex items-center">
+                <Monitor size={16} className="mr-2" />
+                Display Mode
+              </p>
+              <div className="flex space-x-2">
+                {[
+                  { value: 'light', icon: Sun, label: 'Light' },
+                  { value: 'dark', icon: Moon, label: 'Dark' },
+                  { value: 'system', icon: Monitor, label: 'Auto' }
+                ].map(({ value, icon: Icon, label }) => (
+                  <Button
+                    key={value}
+                    variant={theme === value ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setTheme(value as any)}
+                    className="flex-1 text-xs"
+                    aria-pressed={theme === value}
+                  >
+                    <Icon size={12} className="mr-1" />
+                    {label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Color Selection */}
+            <div className="mb-6">
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 font-medium">
+                Brand Color
+              </p>
+              <div className="grid grid-cols-4 gap-3">
+                {themeColors.map((color) => (
+                  <button
+                    key={color.name}
+                    onClick={() => setThemeColor(color.name as any)}
+                    className={`w-12 h-12 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${color.accent} ${
+                      themeColor === color.name 
+                        ? 'ring-2 ring-gray-900 dark:ring-gray-100 ring-offset-2 scale-110' 
+                        : 'hover:scale-105 shadow-lg'
+                    }`}
+                    title={color.label}
+                    aria-label={`Set theme to ${color.label}`}
+                    aria-pressed={themeColor === color.name}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Accessibility Controls */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 font-medium flex items-center">
+                <Accessibility size={16} className="mr-2" />
+                Accessibility
+              </p>
+              <div className="space-y-3">
+                <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <span className="text-gray-700 dark:text-gray-300 text-sm flex items-center">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                    High Contrast
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={highContrast}
+                    onChange={(e) => setHighContrast(e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                </label>
+                
+                <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <span className="text-gray-700 dark:text-gray-300 text-sm flex items-center">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    Reduce Motion
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={reducedMotion}
+                    onChange={(e) => setReducedMotion(e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                </label>
+                
+                <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <span className="text-gray-700 dark:text-gray-300 text-sm flex items-center">
+                    {soundEnabled ? <Volume2 size={16} className="mr-2" /> : <VolumeX size={16} className="mr-2" />}
+                    Sound Effects
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={soundEnabled}
+                    onChange={(e) => setSoundEnabled(e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                </label>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+// Forgot Password Form Component
+const ForgotPasswordForm = ({ onBack }: { onBack: () => void }) => {
+  const [email, setEmail] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    setMessage('')
+
+    if (!email) {
+      setError('Please enter your email address')
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      // Use the API service to request password reset
+      const { apiService } = await import('@/services/api')
+      const response = await apiService.forgotPassword(email)
+      
+      if (response.success) {
+        setMessage(response.message || 'Password reset link sent to your email address')
+      } else {
+        setError(response.error || 'Failed to send password reset email')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to send password reset email')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm shadow-2xl border-0">
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="text-2xl font-bold text-gray-900">
+            Reset Password
+          </CardTitle>
+          <CardDescription className="text-gray-600">
+            Enter your email to receive reset instructions
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="reset-email" className="flex items-center gap-2 text-gray-700 font-medium">
+                <Mail size={16} />
+                Email Address
+              </Label>
+              <Input
+                id="reset-email"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                autoComplete="email"
+                aria-describedby="email-description"
+                aria-required="true"
+              />
+            </div>
+
+            {message && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-emerald-600 text-sm text-center p-4 bg-emerald-50 rounded-xl border border-emerald-200"
+              >
+                {message}
+              </motion.div>
+            )}
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-2 text-red-600 text-sm text-center p-4 bg-red-50 rounded-xl border border-red-200"
+              >
+                <AlertCircle size={16} />
+                {error}
+              </motion.div>
+            )}
+
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full h-12 text-lg font-semibold bg-blue-600 hover:bg-blue-700"
+            >
+              {isLoading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="w-5 h-5 border-2 border-current border-t-transparent rounded-full"
+                />
+              ) : (
+                'Send Reset Link'
+              )}
+            </Button>
+
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={onBack}
+              className="w-full text-gray-600 hover:text-gray-900"
+            >
+              ← Back to Login
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </motion.div>
+  )
+}
+
+// Main Login Page Component
+const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+
+  const { login } = useAuth()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+
+    if (!email || !password) {
+      setError('Please fill in all fields')
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      await login({ email, password })
+      // Remember user preference
+      if (rememberMe) {
+        localStorage.setItem('aol_remember_email', email)
+      } else {
+        localStorage.removeItem('aol_remember_email')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Invalid email or password')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Pre-fill email if remembered
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem('aol_remember_email')
+    if (rememberedEmail) {
+      setEmail(rememberedEmail)
+      setRememberMe(true)
+    }
+  }, [])
+
+  return (
+    <div className="min-h-screen flex relative">
+      {/* Skip to main content for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-lg z-50">
+        Skip to main content
+      </a>
+      
+      {/* Theme Customizer */}
+      <ThemeCustomizer />
+
+      {/* Left side - Welcome Animation */}
+      <motion.div 
+        className="hidden lg:flex lg:w-1/2 relative"
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <WelcomeSection />
+      </motion.div>
+
+      {/* Right side - Login Form */}
+      <motion.div
+        className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50 dark:bg-gray-900"
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <main id="main-content" role="main" aria-label="Login form">
+          <motion.div
+            className="w-full max-w-md"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <AnimatePresence mode="wait">
+              {!showForgotPassword ? (
+                <motion.div
+                  key="login"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Card className="w-full bg-white/95 backdrop-blur-sm shadow-2xl border-0">
+                    <CardHeader className="text-center pb-6">
+                      <motion.div
+                        initial={{ y: -20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.7 }}
+                      >
+                        <div className="flex items-center justify-center mb-4">
+                          <div className="bg-blue-600 rounded-2xl p-3 shadow-lg">
+                            <Truck size={32} className="text-white" />
+                          </div>
+                        </div>
+                        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                          AOL TMS
+                        </CardTitle>
+                        <CardDescription className="text-lg mt-2 text-gray-600">
+                          Transportation Management System
+                        </CardDescription>
+                      </motion.div>
+                    </CardHeader>
+                    
+                    <CardContent>
+                      <form onSubmit={handleSubmit} className="space-y-6">
+                        <motion.div
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: 0.8 }}
+                          className="space-y-2"
+                        >
+                          <Label htmlFor="email" className="flex items-center gap-2 text-gray-700 font-medium">
+                            <Mail size={16} />
+                            Email Address
+                          </Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            autoComplete="email"
+                            aria-describedby="email-description"
+                            aria-required="true"
+                          />
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: 0.9 }}
+                          className="space-y-2"
+                        >
+                          <Label htmlFor="password" className="flex items-center gap-2 text-gray-700 font-medium">
+                            <Lock size={16} />
+                            Password
+                          </Label>
+                          <div className="relative">
+                            <Input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter your password"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              className="h-12 pr-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                              autoComplete="current-password"
+                              aria-describedby="password-description"
+                              aria-required="true"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                              aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </button>
+                          </div>
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: 1.0 }}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <input
+                              id="remember"
+                              type="checkbox"
+                              checked={rememberMe}
+                              onChange={(e) => setRememberMe(e.target.checked)}
+                              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            />
+                            <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer">
+                              Remember me
+                            </Label>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setShowForgotPassword(true)}
+                            className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                          >
+                            Forgot password?
+                          </button>
+                        </motion.div>
+
+                        {error && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="flex items-center gap-2 text-red-600 text-sm p-4 bg-red-50 rounded-xl border border-red-200"
+                          >
+                            <AlertCircle size={16} />
+                            {error}
+                          </motion.div>
+                        )}
+
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 1.1 }}
+                        >
+                          <Button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full h-12 text-lg font-semibold bg-blue-600 hover:bg-blue-700 shadow-lg"
+                          >
+                            {isLoading ? (
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                className="w-5 h-5 border-2 border-current border-t-transparent rounded-full"
+                              />
+                            ) : (
+                              'Sign In to Dashboard'
+                            )}
+                          </Button>
+                        </motion.div>
+                      </form>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ) : (
+                <ForgotPasswordForm onBack={() => setShowForgotPassword(false)} />
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </main>
+      </motion.div>
+    </div>
+  )
+}
+
+export default LoginPage
