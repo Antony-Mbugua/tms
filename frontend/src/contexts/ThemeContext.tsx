@@ -17,6 +17,7 @@ interface ThemeProviderState {
 const initialState: ThemeProviderState = {
   theme: 'system',
   setTheme: () => null,
+  toggleTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
