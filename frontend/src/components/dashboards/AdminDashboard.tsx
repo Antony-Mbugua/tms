@@ -1291,6 +1291,12 @@ const AdminDashboard: React.FC = () => {
         </div>
       )}
 
+      {/* Training Content Upload Modal */}
+      <TrainingContentUpload
+        isOpen={showTrainingUpload}
+        onClose={() => setShowTrainingUpload(false)}
+      />
+
       {/* Notifications */}
       {notifications.length > 0 && (
         <div className="fixed top-4 right-4 space-y-2 z-50">
