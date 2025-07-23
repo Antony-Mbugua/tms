@@ -68,7 +68,7 @@ root.render(
           }}
         />
       </BrowserRouter>
-      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+{/* DevTools removed for cleaner UI */}
     </QueryClientProvider>
   </React.StrictMode>
 );
