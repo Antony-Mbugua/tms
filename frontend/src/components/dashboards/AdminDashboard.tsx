@@ -47,8 +47,10 @@ const AdminDashboard: React.FC = () => {
       changeType: 'positive' as const,
       icon: FileText,
       color: 'text-blue-600',
-      bgColor: 'bg-blue-100',
-      description: 'Currently in transit'
+      bgColor: 'bg-gradient-to-br from-blue-500 to-blue-600',
+      iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+      description: 'Currently in transit',
+      trend: 'up'
     },
     {
       title: 'Fleet Size',
@@ -56,9 +58,11 @@ const AdminDashboard: React.FC = () => {
       change: '+2',
       changeType: 'positive' as const,
       icon: Truck,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
-      description: 'Total active trucks'
+      color: 'text-emerald-600',
+      bgColor: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
+      iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
+      description: 'Total active trucks',
+      trend: 'up'
     },
     {
       title: 'Active Drivers',
@@ -67,8 +71,10 @@ const AdminDashboard: React.FC = () => {
       changeType: 'neutral' as const,
       icon: Users,
       color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
-      description: 'Drivers on duty'
+      bgColor: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      iconBg: 'bg-purple-100 dark:bg-purple-900/30',
+      description: 'Drivers on duty',
+      trend: 'stable'
     },
     {
       title: 'Monthly Revenue',
@@ -76,9 +82,11 @@ const AdminDashboard: React.FC = () => {
       change: '+8.2%',
       changeType: 'positive' as const,
       icon: DollarSign,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-100',
-      description: 'This month\'s earnings'
+      color: 'text-green-600',
+      bgColor: 'bg-gradient-to-br from-green-500 to-green-600',
+      iconBg: 'bg-green-100 dark:bg-green-900/30',
+      description: 'This month\'s earnings',
+      trend: 'up'
     },
     {
       title: 'Trip Volume',
@@ -87,8 +95,10 @@ const AdminDashboard: React.FC = () => {
       changeType: 'positive' as const,
       icon: TrendingUp,
       color: 'text-orange-600',
-      bgColor: 'bg-orange-100',
-      description: 'Completed trips'
+      bgColor: 'bg-gradient-to-br from-orange-500 to-orange-600',
+      iconBg: 'bg-orange-100 dark:bg-orange-900/30',
+      description: 'Completed trips',
+      trend: 'up'
     },
     {
       title: 'Load Completion Rate',
@@ -97,8 +107,10 @@ const AdminDashboard: React.FC = () => {
       changeType: 'positive' as const,
       icon: CheckCircle,
       color: 'text-cyan-600',
-      bgColor: 'bg-cyan-100',
-      description: 'On-time delivery rate'
+      bgColor: 'bg-gradient-to-br from-cyan-500 to-cyan-600',
+      iconBg: 'bg-cyan-100 dark:bg-cyan-900/30',
+      description: 'On-time delivery rate',
+      trend: 'up'
     }
   ];
 
@@ -409,31 +421,39 @@ const AdminDashboard: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="hover:shadow-lg transition-shadow duration-300">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border-0 overflow-hidden relative group">
+                  <div className={`absolute inset-0 ${kpi.bgColor} opacity-5 group-hover:opacity-10 transition-opacity`} />
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
                     <CardTitle className="text-sm font-medium text-muted-foreground">
                       {kpi.title}
                     </CardTitle>
-                    <div className={`p-2 rounded-full ${kpi.bgColor}`}>
-                      <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
+                    <div className={`p-3 rounded-xl ${kpi.iconBg} group-hover:scale-110 transition-transform`}>
+                      <kpi.icon className={`h-5 w-5 ${kpi.color}`} />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
-                    <div className="flex items-center justify-between">
+                  <CardContent className="relative z-10">
+                    <div className="text-3xl font-bold text-foreground mb-2">{kpi.value}</div>
+                    <div className="flex items-center justify-between mb-2">
                       <span
-                        className={`text-xs ${
+                        className={`text-sm font-medium flex items-center gap-1 ${
                           kpi.changeType === 'positive'
                             ? 'text-green-600'
                             : kpi.changeType === 'negative'
                             ? 'text-red-600'
-                            : 'text-gray-600'
+                            : 'text-yellow-600'
                         }`}
                       >
+                        {kpi.changeType === 'positive' && (
+                          <TrendingUp className="h-3 w-3" />
+                        )}
+                        {kpi.changeType === 'negative' && (
+                          <TrendingUp className="h-3 w-3 rotate-180" />
+                        )}
                         {kpi.change} from last month
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{kpi.description}</p>
+                    <p className="text-xs text-muted-foreground">{kpi.description}</p>
+                    <div className={`mt-2 h-1 rounded-full ${kpi.bgColor} opacity-20`} />
                   </CardContent>
                 </Card>
               </motion.div>
