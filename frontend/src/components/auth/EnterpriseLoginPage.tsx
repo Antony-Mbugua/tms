@@ -370,51 +370,12 @@ const EnterpriseLoginPage: React.FC<LoginPageProps> = ({ className }) => {
                 className="space-y-4"
               >
                 <p className="text-xl text-gray-300 font-medium flex items-center justify-center gap-2">
-                  🎉 Welcome to AOL TMS — Revolutionizing Logistics.
+                  🎉 Welcome to AOL TMS
                 </p>
-                
-                <div className="flex flex-wrap justify-center gap-2 mt-6">
-                  <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                    <Shield className="w-3 h-3 mr-1" />
-                    Zero Trust Security
-                  </Badge>
-                  <Badge variant="secondary" className="bg-green-500/20 text-green-300 border-green-500/30">
-                    <Lock className="w-3 h-3 mr-1" />
-                    Enterprise Grade
-                  </Badge>
-                  <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                    Real-time Tracking
-                  </Badge>
-                </div>
               </motion.div>
             </motion.div>
 
-            {/* Feature Highlights */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg"
-            >
-              {[
-                { icon: Shield, title: 'Multi-Factor Auth', desc: 'Enhanced Security' },
-                { icon: Truck, title: 'Fleet Management', desc: 'Real-time Tracking' },
-                { icon: CheckCircle2, title: 'Document OCR', desc: 'AI-Powered Processing' },
-                { icon: Lock, title: 'Role-Based Access', desc: 'Granular Permissions' }
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2 + index * 0.1, duration: 0.5 }}
-                  className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10"
-                >
-                  <feature.icon className="w-6 h-6 text-blue-400 mb-2" />
-                  <h3 className="text-white font-medium text-sm">{feature.title}</h3>
-                  <p className="text-gray-400 text-xs">{feature.desc}</p>
-                </motion.div>
-              ))}
-            </motion.div>
+            {/* Simplified - removed feature highlights */}
           </div>
         </div>
 
