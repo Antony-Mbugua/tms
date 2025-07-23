@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Truck, Users, FileText, DollarSign, Shield, Activity, 
+import {
+  Truck, Users, FileText, DollarSign, Shield, Activity,
   UserPlus, Settings, Upload, Download, Database, Lock,
   TrendingUp, AlertTriangle, CheckCircle, Clock,
-  BarChart3, PieChart, LineChart, MapPin, Bell
+  BarChart3, PieChart, LineChart, MapPin, Bell, Edit, Trash2,
+  Eye, EyeOff, Plus, RefreshCw, Search, Filter, MoreHorizontal
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Checkbox } from '../ui/checkbox';
 import { useAuth } from '../../contexts/AuthContext';
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
+  const [users, setUsers] = useState([]);
+  const [settings, setSettings] = useState({});
+  const [mfaStatus, setMfaStatus] = useState({});
+  const [securityEvents, setSecurityEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showCreateUserModal, setShowCreateUserModal] = useState(false);
+  const [newUser, setNewUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    role: 'driver',
+    hasTrainingAccess: false
+  });
 
   const kpis = [
     {
@@ -137,6 +156,62 @@ const AdminDashboard: React.FC = () => {
       actions: ['Backup Database', 'Clean Logs', 'System Health']
     }
   ];
+
+  // Load data when tabs change
+  useEffect(() => {
+    const loadTabData = async () => {
+      setLoading(true);
+      try {
+        switch (activeTab) {
+          case 'users':
+            // Simulate API call
+            setTimeout(() => {
+              setUsers([
+                { id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@aoltms.com', role: 'driver', status: 'active', hasTrainingAccess: true, mfaEnabled: false },
+                { id: 2, firstName: 'Sarah', lastName: 'Johnson', email: 'sarah.johnson@aoltms.com', role: 'dispatcher', status: 'active', hasTrainingAccess: true, mfaEnabled: true }
+              ]);
+              setLoading(false);
+            }, 500);
+            break;
+          case 'system':
+            // Load system settings
+            setTimeout(() => {
+              setSettings({ tokenExpiry: '24h', refreshTokenExpiry: '7d' });
+              setLoading(false);
+            }, 500);
+            break;
+          case 'security':
+            // Load security data
+            setTimeout(() => {
+              setMfaStatus({ globalEnabled: false, usersWithMfa: 8 });
+              setLoading(false);
+            }, 500);
+            break;
+          default:
+            setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error loading tab data:', error);
+        setLoading(false);
+      }
+    };
+
+    if (activeTab !== 'overview') {
+      loadTabData();
+    }
+  }, [activeTab]);
+
+  const handleCreateUser = async () => {
+    try {
+      // Simulate API call
+      console.log('Creating user:', newUser);
+      setShowCreateUserModal(false);
+      setNewUser({ firstName: '', lastName: '', email: '', password: '', role: 'driver', hasTrainingAccess: false });
+      // Refresh users list
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
 
   const getColorClasses = (color: string) => {
     const colors = {
@@ -403,22 +478,501 @@ const AdminDashboard: React.FC = () => {
         </>
       )}
 
-      {/* Other tabs content would go here */}
-      {activeTab !== 'overview' && (
+      {/* Users Tab */}
+      {activeTab === 'users' && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="space-y-6"
         >
+          {/* User Management Header */}
           <Card>
-            <CardContent className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {tabs.find(tab => tab.id === activeTab)?.label} Module
-                </h3>
-                <p className="text-muted-foreground">
-                  Coming soon - Advanced {activeTab} management features
-                </p>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Users className="w-5 h-5" />
+                    <span>User Management</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Manage user accounts, roles, and permissions
+                  </CardDescription>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    onClick={() => setShowCreateUserModal(true)}
+                    className="flex items-center space-x-2"
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span>Create User</span>
+                  </Button>
+                  <Button variant="outline" className="flex items-center space-x-2">
+                    <Upload className="w-4 h-4" />
+                    <span>Bulk Import</span>
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {/* Search and Filter */}
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search users..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <Button variant="outline" className="flex items-center space-x-2">
+                  <Filter className="w-4 h-4" />
+                  <span>Filter</span>
+                </Button>
+              </div>
+
+              {/* Users Table */}
+              <div className="border rounded-lg overflow-hidden">
+                <div className="bg-muted/50 px-6 py-3 border-b">
+                  <div className="grid grid-cols-7 gap-4 text-sm font-medium text-muted-foreground">
+                    <div>Name</div>
+                    <div>Email</div>
+                    <div>Role</div>
+                    <div>Status</div>
+                    <div>Training Access</div>
+                    <div>MFA</div>
+                    <div>Actions</div>
+                  </div>
+                </div>
+                <div className="divide-y">
+                  {[
+                    { id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@aoltms.com', role: 'driver', status: 'active', hasTrainingAccess: true, mfaEnabled: false },
+                    { id: 2, firstName: 'Sarah', lastName: 'Johnson', email: 'sarah.johnson@aoltms.com', role: 'dispatcher', status: 'active', hasTrainingAccess: true, mfaEnabled: true },
+                    { id: 3, firstName: 'Mike', lastName: 'Davis', email: 'mike.davis@aoltms.com', role: 'accountant', status: 'active', hasTrainingAccess: false, mfaEnabled: true },
+                    { id: 4, firstName: 'Carlos', lastName: 'Martinez', email: 'carlos.martinez@aoltms.com', role: 'driver', status: 'active', hasTrainingAccess: true, mfaEnabled: false }
+                  ].map((userItem) => (
+                    <div key={userItem.id} className="px-6 py-4 hover:bg-muted/20">
+                      <div className="grid grid-cols-7 gap-4 items-center">
+                        <div className="font-medium">{userItem.firstName} {userItem.lastName}</div>
+                        <div className="text-sm text-muted-foreground">{userItem.email}</div>
+                        <div>
+                          <Badge variant={userItem.role === 'admin' ? 'destructive' : 'secondary'}>
+                            {userItem.role}
+                          </Badge>
+                        </div>
+                        <div>
+                          <Badge variant={userItem.status === 'active' ? 'default' : 'secondary'}>
+                            {userItem.status}
+                          </Badge>
+                        </div>
+                        <div>
+                          <Badge variant={userItem.hasTrainingAccess ? 'default' : 'secondary'}>
+                            {userItem.hasTrainingAccess ? 'Enabled' : 'Disabled'}
+                          </Badge>
+                        </div>
+                        <div>
+                          <Badge variant={userItem.mfaEnabled ? 'default' : 'secondary'}>
+                            {userItem.mfaEnabled ? 'Enabled' : 'Disabled'}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Button variant="ghost" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <MoreHorizontal className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* User Statistics */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total Users</p>
+                    <p className="text-2xl font-bold">25</p>
+                  </div>
+                  <Users className="w-8 h-8 text-blue-500" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Active Users</p>
+                    <p className="text-2xl font-bold">23</p>
+                  </div>
+                  <CheckCircle className="w-8 h-8 text-green-500" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">MFA Enabled</p>
+                    <p className="text-2xl font-bold">8</p>
+                  </div>
+                  <Shield className="w-8 h-8 text-purple-500" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Training Access</p>
+                    <p className="text-2xl font-bold">15</p>
+                  </div>
+                  <FileText className="w-8 h-8 text-orange-500" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      )}
+
+      {/* System Tab */}
+      {activeTab === 'system' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
+        >
+          {/* System Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Settings className="w-5 h-5" />
+                <span>System Settings</span>
+              </CardTitle>
+              <CardDescription>
+                Configure system-wide settings and preferences
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Authentication Settings */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Authentication Settings</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="token-expiry">Token Expiry</Label>
+                    <Input id="token-expiry" defaultValue="24h" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="refresh-token-expiry">Refresh Token Expiry</Label>
+                    <Input id="refresh-token-expiry" defaultValue="7d" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="max-login-attempts">Max Login Attempts</Label>
+                    <Input id="max-login-attempts" type="number" defaultValue="5" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="session-timeout">Session Timeout</Label>
+                    <Input id="session-timeout" defaultValue="2h" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Email Templates */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Email Templates</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <div>
+                      <p className="font-medium">Welcome Email</p>
+                      <p className="text-sm text-muted-foreground">Sent to new users upon account creation</p>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  </div>
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <div>
+                      <p className="font-medium">Password Reset</p>
+                      <p className="text-sm text-muted-foreground">Sent when user requests password reset</p>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  </div>
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <div>
+                      <p className="font-medium">Invoice Notification</p>
+                      <p className="text-sm text-muted-foreground">Sent when invoices are generated</p>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chat Configuration */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Chat Configuration</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="chat-enabled" defaultChecked />
+                      <Label htmlFor="chat-enabled">Enable Chat System</Label>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="max-message-length">Max Message Length</Label>
+                    <Input id="max-message-length" type="number" defaultValue="1000" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="file-upload" defaultChecked />
+                      <Label htmlFor="file-upload">Allow File Uploads</Label>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="max-file-size">Max File Size</Label>
+                    <Input id="max-file-size" defaultValue="10MB" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <Button className="flex items-center space-x-2">
+                  <CheckCircle className="w-4 h-4" />
+                  <span>Save Settings</span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Database Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Database className="w-5 h-5" />
+                <span>Database Management</span>
+              </CardTitle>
+              <CardDescription>
+                Database maintenance and backup operations
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button className="flex items-center space-x-2 p-6 h-auto">
+                  <Download className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="font-medium">Backup Database</p>
+                    <p className="text-sm text-muted-foreground">Create system backup</p>
+                  </div>
+                </Button>
+                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                  <RefreshCw className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="font-medium">Clean Logs</p>
+                    <p className="text-sm text-muted-foreground">Remove old log entries</p>
+                  </div>
+                </Button>
+                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                  <Activity className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="font-medium">System Health</p>
+                    <p className="text-sm text-muted-foreground">Check system status</p>
+                  </div>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
+      {/* Security Tab */}
+      {activeTab === 'security' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
+        >
+          {/* MFA Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Shield className="w-5 h-5" />
+                <span>Multi-Factor Authentication</span>
+              </CardTitle>
+              <CardDescription>
+                Manage MFA settings for the entire system
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Global MFA Toggle */}
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div>
+                  <h3 className="font-semibold">Global MFA Enforcement</h3>
+                  <p className="text-sm text-muted-foreground">Require MFA for all user accounts</p>
+                </div>
+                <Button variant="outline">
+                  Enable Global MFA
+                </Button>
+              </div>
+
+              {/* MFA Statistics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold">8</p>
+                      <p className="text-sm text-muted-foreground">Users with MFA</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold">17</p>
+                      <p className="text-sm text-muted-foreground">Users without MFA</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold">32%</p>
+                      <p className="text-sm text-muted-foreground">MFA Adoption Rate</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* MFA Actions */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button className="flex items-center space-x-2 p-6 h-auto">
+                  <Lock className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="font-medium">Generate Backup Codes</p>
+                    <p className="text-sm text-muted-foreground">Create recovery codes</p>
+                  </div>
+                </Button>
+                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                  <RefreshCw className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="font-medium">Reset User MFA</p>
+                    <p className="text-sm text-muted-foreground">Reset specific user</p>
+                  </div>
+                </Button>
+                <Button variant="outline" className="flex items-center space-x-2 p-6 h-auto">
+                  <Eye className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="font-medium">MFA Reports</p>
+                    <p className="text-sm text-muted-foreground">View usage statistics</p>
+                  </div>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Security Events */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <AlertTriangle className="w-5 h-5" />
+                <span>Security Events</span>
+              </CardTitle>
+              <CardDescription>
+                Monitor security events and system alerts
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {[
+                  { type: 'warning', message: '3 failed login attempts from 192.168.1.50', time: '2 minutes ago', severity: 'high' },
+                  { type: 'info', message: 'MFA enabled for user jennifer.wilson@aoltms.com', time: '15 minutes ago', severity: 'info' },
+                  { type: 'warning', message: 'Unusual login pattern detected for carlos.martinez@aoltms.com', time: '1 hour ago', severity: 'medium' },
+                  { type: 'error', message: 'Database connection timeout detected', time: '2 hours ago', severity: 'high' }
+                ].map((event, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-3 h-3 rounded-full ${
+                        event.severity === 'high' ? 'bg-red-500' :
+                        event.severity === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'
+                      }`}></div>
+                      <div>
+                        <p className="text-sm font-medium">{event.message}</p>
+                        <p className="text-xs text-muted-foreground">{event.time}</p>
+                      </div>
+                    </div>
+                    <Badge variant={event.severity === 'high' ? 'destructive' : 'secondary'}>
+                      {event.severity}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Access Control */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Lock className="w-5 h-5" />
+                <span>Access Control</span>
+              </CardTitle>
+              <CardDescription>
+                Manage system access and permissions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="font-semibold">Role Permissions</h3>
+                  <div className="space-y-2">
+                    {['Admin', 'Dispatcher', 'Driver', 'Accountant', 'IT Support'].map((role) => (
+                      <div key={role} className="flex items-center justify-between p-2 border rounded">
+                        <span className="text-sm">{role}</span>
+                        <Button variant="ghost" size="sm">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="font-semibold">Security Policies</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="password-policy" defaultChecked />
+                      <Label htmlFor="password-policy">Enforce Strong Passwords</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="session-policy" defaultChecked />
+                      <Label htmlFor="session-policy">Auto-logout Inactive Sessions</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="ip-restriction" />
+                      <Label htmlFor="ip-restriction">IP Address Restrictions</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="audit-logs" defaultChecked />
+                      <Label htmlFor="audit-logs">Enable Audit Logging</Label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
