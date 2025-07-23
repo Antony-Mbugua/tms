@@ -1,0 +1,16 @@
+2025-07-23 04:34:48.513 Database pool created successfully
+2025-07-23 04:34:48.519 Using memory store for brute force protection (development mode)
+2025-07-23 04:34:48.559 Initializing Socket.IO server...
+2025-07-23 04:34:48.561 Socket.IO server initialized successfully
+2025-07-23 04:34:48.561 Running in development mode - database connection optional
+2025-07-23 04:34:48.602 Database connection test failed: connect ECONNREFUSED 127.0.0.1:3306
+2025-07-23 04:34:48.614 Database connection failed, running in mock mode:
+2025-07-23 04:34:48.616 System startup completed
+2025-07-23 04:34:48.618 🚀 AOL TMS Enterprise Backend started successfully
+2025-07-23 04:34:48.619 📡 Server running on port 5000
+2025-07-23 04:34:48.620 🌍 Environment: development
+2025-07-23 04:34:48.620 🔒 Security: Zero Trust Architecture enabled
+2025-07-23 04:34:48.628 💬 Real-time: Socket.IO enabled
+2025-07-23 04:34:48.628 📊 Health Check: http://localhost:5000/health
+2025-07-23 04:34:48.628 🔧 API Base URL: http://localhost:5000/api
+2025-07-23 04:34:48.629 📁 File Uploads: http://localhost:5000/uploads
