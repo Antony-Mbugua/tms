@@ -33,6 +33,11 @@ const AdminDashboard: React.FC = () => {
     role: 'driver',
     hasTrainingAccess: false
   });
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showTrainingModal, setShowTrainingModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [uploadType, setUploadType] = useState('');
+  const [notifications, setNotifications] = useState([]);
 
   const kpis = [
     {
@@ -207,10 +212,107 @@ const AdminDashboard: React.FC = () => {
       console.log('Creating user:', newUser);
       setShowCreateUserModal(false);
       setNewUser({ firstName: '', lastName: '', email: '', password: '', role: 'driver', hasTrainingAccess: false });
+      addNotification('User created successfully', 'success');
       // Refresh users list
     } catch (error) {
       console.error('Error creating user:', error);
+      addNotification('Failed to create user', 'error');
     }
+  };
+
+  const handleActionClick = (actionType: string, actionName: string) => {
+    switch (actionType) {
+      case 'User Management':
+        if (actionName === 'Create User') {
+          setShowCreateUserModal(true);
+        } else if (actionName === 'Manage Roles') {
+          addNotification('Role management opened', 'info');
+        } else if (actionName === 'Bulk Import') {
+          setUploadType('users');
+          setShowUploadModal(true);
+        }
+        break;
+      case 'Rate Confirmations':
+        if (actionName === 'Upload Documents') {
+          setUploadType('rate-confirmations');
+          setShowUploadModal(true);
+        } else if (actionName === 'OCR Processing') {
+          addNotification('OCR processing started', 'info');
+        } else if (actionName === 'Review Queue') {
+          addNotification('Review queue opened', 'info');
+        }
+        break;
+      case 'Training Modules':
+        if (actionName === 'Upload Module') {
+          setShowTrainingModal(true);
+        } else if (actionName === 'Assign Training') {
+          addNotification('Training assignment opened', 'info');
+        } else if (actionName === 'Progress Reports') {
+          addNotification('Progress reports opened', 'info');
+        }
+        break;
+      case 'System Settings':
+        setShowSettingsModal(true);
+        break;
+      case 'MFA Management':
+        if (actionName === 'Global MFA') {
+          addNotification('Global MFA settings opened', 'info');
+        } else if (actionName === 'User MFA') {
+          addNotification('User MFA settings opened', 'info');
+        } else if (actionName === 'Backup Codes') {
+          addNotification('Backup codes generated', 'success');
+        }
+        break;
+      case 'Data Management':
+        if (actionName === 'Backup Database') {
+          handleDatabaseBackup();
+        } else if (actionName === 'Clean Logs') {
+          handleLogCleanup();
+        } else if (actionName === 'System Health') {
+          addNotification('System health check completed', 'success');
+        }
+        break;
+      default:
+        addNotification(`${actionName} clicked`, 'info');
+    }
+  };
+
+  const handleDatabaseBackup = async () => {
+    try {
+      addNotification('Starting database backup...', 'info');
+      // Simulate API call
+      setTimeout(() => {
+        addNotification('Database backup completed successfully', 'success');
+      }, 2000);
+    } catch (error) {
+      addNotification('Database backup failed', 'error');
+    }
+  };
+
+  const handleLogCleanup = async () => {
+    try {
+      addNotification('Starting log cleanup...', 'info');
+      setTimeout(() => {
+        addNotification('Log cleanup completed - 1,250 records removed', 'success');
+      }, 1500);
+    } catch (error) {
+      addNotification('Log cleanup failed', 'error');
+    }
+  };
+
+  const addNotification = (message: string, type: 'success' | 'error' | 'info') => {
+    const notification = {
+      id: Date.now(),
+      message,
+      type,
+      timestamp: new Date().toISOString()
+    };
+    setNotifications(prev => [notification, ...prev.slice(0, 4)]);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== notification.id));
+    }, 5000);
   };
 
   const getColorClasses = (color: string) => {
@@ -378,6 +480,7 @@ const AdminDashboard: React.FC = () => {
                                 variant="outline"
                                 size="sm"
                                 className="text-xs h-6 px-2"
+                                onClick={() => handleActionClick(action.title, actionBtn)}
                               >
                                 {actionBtn}
                               </Button>
@@ -425,7 +528,19 @@ const AdminDashboard: React.FC = () => {
                         }`}></div>
                         <span className="text-sm text-foreground">{alert.message}</span>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          if (alert.action === 'Schedule') {
+                            addNotification('Maintenance scheduled for Truck AOL003', 'success');
+                          } else if (alert.action === 'Notify') {
+                            addNotification('Training notifications sent to 3 drivers', 'success');
+                          } else if (alert.action === 'Review') {
+                            addNotification('Security review initiated for suspicious IP', 'info');
+                          }
+                        }}
+                      >
                         {alert.action}
                       </Button>
                     </motion.div>
@@ -977,6 +1092,203 @@ const AdminDashboard: React.FC = () => {
             </CardContent>
           </Card>
         </motion.div>
+      )}
+
+      {/* Create User Modal */}
+      {showCreateUserModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-background rounded-lg p-6 w-full max-w-md"
+          >
+            <h2 className="text-lg font-semibold mb-4">Create New User</h2>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="firstName">First Name</Label>
+                  <Input
+                    id="firstName"
+                    value={newUser.firstName}
+                    onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <Input
+                    id="lastName"
+                    value={newUser.lastName}
+                    onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={newUser.password}
+                  onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="role">Role</Label>
+                <select
+                  id="role"
+                  value={newUser.role}
+                  onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-md"
+                >
+                  <option value="driver">Driver</option>
+                  <option value="dispatcher">Dispatcher</option>
+                  <option value="accountant">Accountant</option>
+                  <option value="it_support">IT Support</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="trainingAccess"
+                  checked={newUser.hasTrainingAccess}
+                  onCheckedChange={(checked) => setNewUser({...newUser, hasTrainingAccess: checked as boolean})}
+                />
+                <Label htmlFor="trainingAccess">Grant Training Access</Label>
+              </div>
+            </div>
+            <div className="flex justify-end space-x-3 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setShowCreateUserModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleCreateUser}>
+                Create User
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Upload Modal */}
+      {showUploadModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-background rounded-lg p-6 w-full max-w-md"
+          >
+            <h2 className="text-lg font-semibold mb-4">
+              Upload {uploadType === 'users' ? 'Users' : 'Rate Confirmations'}
+            </h2>
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-muted rounded-lg p-8 text-center">
+                <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground mb-2">Drag and drop files here or click to browse</p>
+                <Button variant="outline" size="sm">
+                  Choose Files
+                </Button>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {uploadType === 'users' ?
+                  'Supported formats: CSV, Excel (.xlsx). Maximum 1000 users per upload.' :
+                  'Supported formats: PDF, JPG, PNG. Maximum 10MB per file.'
+                }
+              </div>
+            </div>
+            <div className="flex justify-end space-x-3 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setShowUploadModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button>
+                Upload
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Training Module Modal */}
+      {showTrainingModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-background rounded-lg p-6 w-full max-w-lg"
+          >
+            <h2 className="text-lg font-semibold mb-4">Create Training Module</h2>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="moduleTitle">Module Title</Label>
+                <Input id="moduleTitle" placeholder="e.g. Safety Training" />
+              </div>
+              <div>
+                <Label htmlFor="moduleDescription">Description</Label>
+                <textarea
+                  id="moduleDescription"
+                  className="w-full px-3 py-2 border rounded-md"
+                  rows={3}
+                  placeholder="Describe the training module..."
+                />
+              </div>
+              <div>
+                <Label>Required for Roles</Label>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  {['Driver', 'Dispatcher', 'Accountant', 'IT Support'].map((role) => (
+                    <div key={role} className="flex items-center space-x-2">
+                      <Checkbox id={role.toLowerCase()} />
+                      <Label htmlFor={role.toLowerCase()}>{role}</Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end space-x-3 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setShowTrainingModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button>
+                Create Module
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Notifications */}
+      {notifications.length > 0 && (
+        <div className="fixed top-4 right-4 space-y-2 z-50">
+          {notifications.map((notification) => (
+            <motion.div
+              key={notification.id}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 100 }}
+              className={`p-3 rounded-lg shadow-lg max-w-sm ${
+                notification.type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                notification.type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                'bg-blue-100 text-blue-800 border border-blue-200'
+              }`}
+            >
+              <p className="text-sm font-medium">{notification.message}</p>
+            </motion.div>
+          ))}
+        </div>
       )}
     </div>
   );
