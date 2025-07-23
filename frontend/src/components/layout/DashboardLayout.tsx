@@ -282,11 +282,78 @@ const DashboardLayout: React.FC = () => {
             </Button>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
-              </Button>
+              {/* Theme Toggle */}
+              <ThemeToggle />
 
+              {/* Notifications */}
+              <div className="relative">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  <Bell className="h-5 w-5" />
+                  {notifications.length > 0 && (
+                    <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                      {notifications.length}
+                    </span>
+                  )}
+                </Button>
+
+                <AnimatePresence>
+                  {showNotifications && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-80 bg-card border border-border rounded-md shadow-lg z-50"
+                    >
+                      <div className="p-3 border-b border-border">
+                        <h3 className="font-medium text-foreground">Notifications</h3>
+                      </div>
+                      <div className="max-h-64 overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <div className="p-4 text-center text-muted-foreground">
+                            No new notifications
+                          </div>
+                        ) : (
+                          notifications.map((notification) => (
+                            <div key={notification.id} className="p-3 border-b border-border hover:bg-muted/50">
+                              <div className="flex items-start space-x-3">
+                                <div className={`w-2 h-2 rounded-full mt-2 ${
+                                  notification.type === 'success' ? 'bg-green-500' :
+                                  notification.type === 'warning' ? 'bg-yellow-500' :
+                                  notification.type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+                                }`} />
+                                <div className="flex-1">
+                                  <p className="text-sm text-foreground">{notification.message}</p>
+                                  <p className="text-xs text-muted-foreground">{notification.time}</p>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                      <div className="p-2 border-t border-border">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="w-full"
+                          onClick={() => {
+                            setNotifications([]);
+                            setShowNotifications(false);
+                          }}
+                        >
+                          Clear all
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* User Menu */}
               <div className="relative">
                 <Button
                   variant="ghost"
@@ -319,7 +386,7 @@ const DashboardLayout: React.FC = () => {
                           className="w-full justify-start"
                           onClick={() => {
                             setShowUserMenu(false);
-                            navigate('/dashboard/profile');
+                            setShowProfileSettings(true);
                           }}
                         >
                           <User className="h-4 w-4 mr-2" />
@@ -351,6 +418,12 @@ const DashboardLayout: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* User Profile Settings Modal */}
+      <UserProfileSettings
+        isOpen={showProfileSettings}
+        onClose={() => setShowProfileSettings(false)}
+      />
     </div>
   );
 };
