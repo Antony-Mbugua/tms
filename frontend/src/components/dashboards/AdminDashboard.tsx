@@ -257,7 +257,7 @@ const AdminDashboard: React.FC = () => {
         break;
       case 'Training Modules':
         if (actionName === 'Upload Module') {
-          setShowTrainingModal(true);
+          setShowTrainingUpload(true);
         } else if (actionName === 'Assign Training') {
           addNotification('Training assignment opened', 'info');
         } else if (actionName === 'Progress Reports') {
