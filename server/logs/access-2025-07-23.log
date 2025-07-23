@@ -1,0 +1,9 @@
+2025-07-23 14:24:08.442 Database pool created successfully
+2025-07-23 14:24:08.446 Using memory store for brute force protection (development mode)
+2025-07-23 14:24:08.471 🚀 AOL TMS Enterprise Server started successfully
+2025-07-23 14:24:08.472 📡 Server running on 0.0.0.0:5000
+2025-07-23 14:24:08.474 🌍 Environment: development
+2025-07-23 14:24:08.475 🔒 Security: Enterprise-grade protection enabled
+2025-07-23 14:24:08.475 📊 Health Check: http://0.0.0.0:5000/health
+2025-07-23 14:24:08.476 🔧 API Base URL: http://0.0.0.0:5000/api
+2025-07-23 14:24:08.476 📁 File Uploads: http://0.0.0.0:5000/uploads

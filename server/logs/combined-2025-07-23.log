@@ -1,0 +1,72 @@
+2025-07-23 14:24:08.444 [INFO]: Database pool created successfully
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.447 [INFO]: Using memory store for brute force protection (development mode)
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.472 [INFO]: 🚀 AOL TMS Enterprise Server started successfully
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.474 [INFO]: 📡 Server running on 0.0.0.0:5000
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.475 [INFO]: 🌍 Environment: development
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.475 [INFO]: 🔒 Security: Enterprise-grade protection enabled
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.476 [INFO]: 📊 Health Check: http://0.0.0.0:5000/health
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.476 [INFO]: 🔧 API Base URL: http://0.0.0.0:5000/api
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
+2025-07-23 14:24:08.476 [INFO]: 📁 File Uploads: http://0.0.0.0:5000/uploads
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 2136
+}
