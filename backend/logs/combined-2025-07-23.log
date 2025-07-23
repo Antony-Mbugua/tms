@@ -149,3 +149,43 @@ Meta: {
   "hostname": "localhost",
   "pid": 6564
 }
+2025-07-23 04:34:55.299 [INFO]: Database pool created successfully
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6619
+}
+2025-07-23 04:34:55.301 [INFO]: Using memory store for brute force protection (development mode)
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6619
+}
+2025-07-23 04:34:55.333 [INFO]: Initializing Socket.IO server...
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6619
+}
+2025-07-23 04:34:55.334 [INFO]: Socket.IO server initialized successfully
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6619
+}
+2025-07-23 04:34:55.335 [INFO]: Running in development mode - database connection optional
+Meta: {
+  "service": "aol-tms-backend",
+  "version": "2.0.0",
+  "environment": "development",
+  "hostname": "localhost",
+  "pid": 6619
+}

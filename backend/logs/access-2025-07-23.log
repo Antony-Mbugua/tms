@@ -14,3 +14,8 @@
 2025-07-23 04:34:48.628 📊 Health Check: http://localhost:5000/health
 2025-07-23 04:34:48.628 🔧 API Base URL: http://localhost:5000/api
 2025-07-23 04:34:48.629 📁 File Uploads: http://localhost:5000/uploads
+2025-07-23 04:34:55.295 Database pool created successfully
+2025-07-23 04:34:55.301 Using memory store for brute force protection (development mode)
+2025-07-23 04:34:55.333 Initializing Socket.IO server...
+2025-07-23 04:34:55.334 Socket.IO server initialized successfully
+2025-07-23 04:34:55.334 Running in development mode - database connection optional
