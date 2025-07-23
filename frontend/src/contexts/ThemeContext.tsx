@@ -11,6 +11,7 @@ interface ThemeProviderProps {
 interface ThemeProviderState {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
 }
 
 const initialState: ThemeProviderState = {
