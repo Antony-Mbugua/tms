@@ -20,6 +20,17 @@ const DriverDashboard = React.lazy(() => import('./components/dashboards/DriverD
 const AccountantDashboard = React.lazy(() => import('./components/dashboards/AccountantDashboard'));
 const ITSupportDashboard = React.lazy(() => import('./components/dashboards/ITSupportDashboard'));
 
+// Admin Pages
+const UserManagement = React.lazy(() => import('./components/pages/admin/UserManagement'));
+const LoadManagement = React.lazy(() => import('./components/pages/admin/LoadManagement'));
+const SystemSettings = React.lazy(() => import('./components/pages/admin/SystemSettings'));
+
+// Driver Pages
+const MyLoads = React.lazy(() => import('./components/pages/driver/MyLoads'));
+
+// Accountant Pages
+const Invoices = React.lazy(() => import('./components/pages/accountant/Invoices'));
+
 const App: React.FC = () => {
   return (
     <ErrorBoundary>
@@ -50,47 +61,177 @@ const App: React.FC = () => {
                       <DashboardLayout />
                     </ProtectedRoute>
                   }>
-                    {/* Role-based dashboard routes */}
-                    <Route 
-                      path="admin" 
-                      element={
-                        <ProtectedRoute requiredRoles={['admin']}>
-                          <AdminDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="dispatcher" 
-                      element={
-                        <ProtectedRoute requiredRoles={['dispatcher', 'admin']}>
-                          <DispatcherDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="driver" 
-                      element={
-                        <ProtectedRoute requiredRoles={['driver', 'admin']}>
-                          <DriverDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="accountant" 
-                      element={
-                        <ProtectedRoute requiredRoles={['accountant', 'admin']}>
-                          <AccountantDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="it-support" 
-                      element={
-                        <ProtectedRoute requiredRoles={['it_support', 'admin']}>
-                          <ITSupportDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
+                    {/* Admin Routes */}
+                    <Route path="admin">
+                      <Route
+                        index
+                        element={
+                          <ProtectedRoute requiredRoles={['admin']}>
+                            <AdminDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="users"
+                        element={
+                          <ProtectedRoute requiredRoles={['admin']}>
+                            <UserManagement />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="load-management"
+                        element={
+                          <ProtectedRoute requiredRoles={['admin']}>
+                            <LoadManagement />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="settings"
+                        element={
+                          <ProtectedRoute requiredRoles={['admin']}>
+                            <SystemSettings />
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Route>
+
+                    {/* Dispatcher Routes */}
+                    <Route path="dispatcher">
+                      <Route
+                        index
+                        element={
+                          <ProtectedRoute requiredRoles={['dispatcher', 'admin']}>
+                            <DispatcherDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="loads"
+                        element={
+                          <ProtectedRoute requiredRoles={['dispatcher', 'admin']}>
+                            <LoadManagement />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="drivers"
+                        element={
+                          <ProtectedRoute requiredRoles={['dispatcher', 'admin']}>
+                            <UserManagement />
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Route>
+
+                    {/* Driver Routes */}
+                    <Route path="driver">
+                      <Route
+                        index
+                        element={
+                          <ProtectedRoute requiredRoles={['driver', 'admin']}>
+                            <DriverDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="loads"
+                        element={
+                          <ProtectedRoute requiredRoles={['driver', 'admin']}>
+                            <MyLoads />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="documents"
+                        element={
+                          <ProtectedRoute requiredRoles={['driver', 'admin']}>
+                            <MyLoads />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="payments"
+                        element={
+                          <ProtectedRoute requiredRoles={['driver', 'admin']}>
+                            <MyLoads />
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Route>
+
+                    {/* Accountant Routes */}
+                    <Route path="accountant">
+                      <Route
+                        index
+                        element={
+                          <ProtectedRoute requiredRoles={['accountant', 'admin']}>
+                            <AccountantDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="invoices"
+                        element={
+                          <ProtectedRoute requiredRoles={['accountant', 'admin']}>
+                            <Invoices />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="expenses"
+                        element={
+                          <ProtectedRoute requiredRoles={['accountant', 'admin']}>
+                            <Invoices />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="reports"
+                        element={
+                          <ProtectedRoute requiredRoles={['accountant', 'admin']}>
+                            <Invoices />
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Route>
+
+                    {/* IT Support Routes */}
+                    <Route path="it-support">
+                      <Route
+                        index
+                        element={
+                          <ProtectedRoute requiredRoles={['it_support', 'admin']}>
+                            <ITSupportDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="monitor"
+                        element={
+                          <ProtectedRoute requiredRoles={['it_support', 'admin']}>
+                            <ITSupportDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="security"
+                        element={
+                          <ProtectedRoute requiredRoles={['it_support', 'admin']}>
+                            <ITSupportDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="audit"
+                        element={
+                          <ProtectedRoute requiredRoles={['it_support', 'admin']}>
+                            <ITSupportDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Route>
                     
                     {/* Default dashboard redirect based on role */}
                     <Route 
